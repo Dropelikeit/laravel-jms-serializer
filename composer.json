@@ -1,0 +1,50 @@
+{
+  "name": "dropelikeit/laravel-jms-serializer",
+  "description": "Intregation JMS Serializer in Laravel / Lumen",
+  "keywords": ["Lumen", "Laravel", "JMS Serializer", "JMS"],
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Marcel Strahl",
+      "email": "info@marcel-strahl.de"
+    }
+  ],
+  "require": {
+    "illuminate/http": "^6.7",
+    "illuminate/support": "^6.7",
+    "illuminate/contracts": "^6.7",
+    "jms/serializer": "^3.4",
+    "phpunit/phpunit": "^8.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Dropelikeit\\LaravelJmsSerializer\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Dropelikeit\\LaravelJmsSerializer\\Tests\\": "tests/"
+    }
+  },
+  "prefer-stable": true,
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Dropelikeit\\LaravelJmsSerializer\\ServiceProvider"
+      ]
+    }
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.16"
+  },
+  "scripts": {
+    "cs-check": "php-cs-fixer -v --dry-run --using-cache=no fix",
+    "cs-fix": "php-cs-fixer --using-cache=no fix",
+    "test": "phpunit",
+    "check": [
+      "@cs-check",
+      "@test"
+    ]
+  }
+}
