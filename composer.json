@@ -15,7 +15,6 @@
     "illuminate/support": "^6.7",
     "illuminate/contracts": "^6.7",
     "jms/serializer": "^3.4",
-    "phpunit/phpunit": "^8.5",
     "doctrine/cache": "^1.10"
   },
   "autoload": {
@@ -37,7 +36,8 @@
     }
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2.16"
+    "friendsofphp/php-cs-fixer": "^2.16",
+    "phpunit/phpunit": "^8.5"
   },
   "scripts": {
     "cs-check": "php-cs-fixer -v --dry-run --using-cache=no fix",
