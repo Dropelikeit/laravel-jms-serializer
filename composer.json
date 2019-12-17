@@ -15,7 +15,8 @@
     "illuminate/support": "^6.7",
     "illuminate/contracts": "^6.7",
     "jms/serializer": "^3.4",
-    "phpunit/phpunit": "^8.5"
+    "phpunit/phpunit": "^8.5",
+    "doctrine/cache": "^1.10"
   },
   "autoload": {
     "psr-4": {

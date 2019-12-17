@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer\Config;
 
+use Dropelikeit\LaravelJmsSerializer\Exception\MissingRequiredItems;
+use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
+
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
  */
@@ -54,22 +57,22 @@ class Config
 
     public static function fromConfig(array $config): self
     {
-        $missing = array_diff(array_keys($config), [
+        $missing = array_diff([
             'serialize_null',
             'cache_dir',
             'serialize_type',
             'debug',
-        ]);
+        ], array_keys($config));
 
         if (!empty($missing)) {
-            // throw an exception
+            throw MissingRequiredItems::fromConfig(implode(',', $missing));
         }
 
         if (!in_array($config['serialize_type'], [
             self::SERIALIZE_TYPE_JSON,
             self::SERIALIZE_TYPE_XML,
         ])) {
-            // throw an exception
+            throw SerializeType::fromUnsupportedSerializeType($config['serialize_type']);
         }
 
         return new self($config['cache_dir'], $config['serialize_null'], $config['serialize_type'], $config['debug']);
