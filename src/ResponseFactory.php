@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Dropelikeit\LaravelJmsSerializer;
 
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
+use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -28,6 +29,11 @@ class ResponseFactory
      */
     private $status = 200;
 
+    /**
+     * @var SerializationContext|null
+     */
+    private $context;
+
     public function __construct(SerializerInterface $serializer, Config $config)
     {
         $this->serializer = $serializer;
@@ -39,9 +45,14 @@ class ResponseFactory
         $this->status = $code;
     }
 
+    public function withContext(SerializationContext $context): void
+    {
+        $this->context = $context;
+    }
+
     public function create(object $jmsResponse): JsonResponse
     {
-        $content = $this->serializer->serialize($jmsResponse, $this->config->getSerializeType());
+        $content = $this->serializer->serialize($jmsResponse, $this->config->getSerializeType(), $this->context);
 
         return new JsonResponse($content, $this->status, ['application/json'], true);
     }

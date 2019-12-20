@@ -22,4 +22,10 @@ class Dummy
      * @var string
      */
     private $text = 'Hello World!';
+
+    /**
+     * @Serializer\Type("array")
+     * @var array
+     */
+    public $items;
 }

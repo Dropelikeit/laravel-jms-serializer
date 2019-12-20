@@ -14,12 +14,13 @@ use JMS\Serializer\SerializerInterface;
  */
 class Factory
 {
-
     public function getSerializer(Config $config): SerializerInterface
     {
         $builder = new SerializerBuilder();
 
         $builder::create()
+            ->addDefaultHandlers()
+            ->addDefaultListeners()
             ->setSerializationContextFactory(function () use ($config) {
                 return SerializationContext::create()
                     ->setSerializeNull($config->shouldSerializeNull())
