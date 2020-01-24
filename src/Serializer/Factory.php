@@ -8,6 +8,8 @@ use Dropelikeit\LaravelJmsSerializer\Config\Config;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
+use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
+use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
@@ -19,6 +21,11 @@ class Factory
         $builder = new SerializerBuilder();
 
         $builder::create()
+            ->setPropertyNamingStrategy(
+                new SerializedNameAnnotationStrategy(
+                    new IdenticalPropertyNamingStrategy()
+                )
+            )
             ->addDefaultHandlers()
             ->addDefaultListeners()
             ->setSerializationContextFactory(function () use ($config) {
