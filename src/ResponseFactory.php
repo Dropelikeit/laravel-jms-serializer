@@ -56,4 +56,11 @@ class ResponseFactory
 
         return new JsonResponse($content, $this->status, ['application/json'], true);
     }
+
+    public function createFromArray(array $jmsResponse): JsonResponse
+    {
+        $content = $this->serializer->serialize($jmsResponse, $this->config->getSerializeType(), $this->context);
+
+        return new JsonResponse($content, $this->status, ['application/json'], true);
+    }
 }
