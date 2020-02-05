@@ -43,9 +43,11 @@
     "cs-check": "php-cs-fixer -v --dry-run --using-cache=no fix",
     "cs-fix": "php-cs-fixer --using-cache=no fix",
     "test": "phpunit",
+    "test-coverage": "phpunit --coverage-clover build/logs/clover.xml",
     "check": [
       "@cs-check",
-      "@test"
+      "@test",
+      "@test-coverage"
     ]
   }
 }
