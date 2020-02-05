@@ -58,7 +58,8 @@ class ResponseFactory
         $content = $this->serializer->serialize(
             $jmsResponse,
             $this->config->getSerializeType(),
-            $this->context, $initialType
+            $this->context,
+            $initialType
         );
 
         return new JsonResponse($content, $this->status, ['application/json'], true);

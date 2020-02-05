@@ -15,9 +15,9 @@ class MissingRequiredItems extends InvalidArgumentException
     {
         return new self(
             sprintf(
-            'Missing required fields, please check your serializer-config. Missing fields "%s"',
-            $fields
-        ),
+                'Missing required fields, please check your serializer-config. Missing fields "%s"',
+                $fields
+            ),
             400
         );
     }

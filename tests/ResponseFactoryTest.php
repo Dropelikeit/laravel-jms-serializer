@@ -111,7 +111,7 @@ class ResponseFactoryTest extends TestCase
 
         $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
 
-        $response = $responseFactory->createFromArray(require __DIR__.'/ResponseFactory/dummy_array.php');
+        $response = $responseFactory->createFromArray(require __DIR__ . '/ResponseFactory/dummy_array.php');
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(
