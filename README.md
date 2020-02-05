@@ -1,3 +1,13 @@
+[![Build Status](https://travis-ci.org/Dropelikeit/laravel-jms-serializer.svg?branch=master)](https://travis-ci.org/Dropelikeit/PriceCalculator)
+[![Coverage Status](https://coveralls.io/repos/github/Dropelikeit/laravel-jms-serializer/badge.svg)](https://coveralls.io/github/Dropelikeit/laravel-jms-serializer)
+[![Monthly Downloads](https://poser.pugx.org/dropelikeit/laravel-jms-serializer/d/monthly)](https://packagist.org/packages/dropelikeit/laravel-jms-serializer)
+[![Daily Downloads](https://poser.pugx.org/dropelikeit/laravel-jms-serializer/d/daily)](https://packagist.org/packages/dropelikeit/laravel-jms-serializer)
+[![Total Downloads](https://poser.pugx.org/dropelikeit/laravel-jms-serializer/downloads)](https://packagist.org/packages/dropelikeit/laravel-jms-serializer)
+[![Latest Stable Version](https://poser.pugx.org/dropelikeit/laravel-jms-serializer/v/stable)](https://packagist.org/packages/dropelikeit/laravel-jms-serializer)
+[![Total Downloads](https://poser.pugx.org/dropelikeit/laravel-jms-serializer/downloads)](https://packagist.org/packages/dropelikeit/laravel-jms-serializer)
+[![License](https://poser.pugx.org/dropelikeit/laravel-jms-serializer/license)](https://packagist.org/packages/dropelikeit/laravel-jms-serializer)
+[![composer.lock](https://poser.pugx.org/dropelikeit/laravel-jms-serializer/composerlock)](https://packagist.org/packages/dropelikeit/laravel-jms-serializer)
+
 # JMS Serializer for Laravel
 
 This package integrates the JMS serializer into Laravel.
