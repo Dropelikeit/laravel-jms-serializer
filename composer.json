@@ -11,9 +11,9 @@
     }
   ],
   "require": {
-    "illuminate/http": "^6.7",
-    "illuminate/support": "^6.7",
-    "illuminate/contracts": "^6.7",
+    "illuminate/http": "^5.2|^6.0|^7.0",
+    "illuminate/support": "^5.2|^6.0|^7.0",
+    "illuminate/contracts": "^5.2|^6.0|^7.0",
     "jms/serializer": "^3.4",
     "doctrine/cache": "^1.10"
   },

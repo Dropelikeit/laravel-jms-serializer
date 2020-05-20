@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Dropelikeit\LaravelJmsSerializer\Serializer;
 
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
+use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
+use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
-use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
-use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
