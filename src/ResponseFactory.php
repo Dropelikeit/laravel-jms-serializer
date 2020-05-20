@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer;
 
+use ArrayIterator;
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
@@ -52,7 +53,14 @@ class ResponseFactory
 
     public function create(object $jmsResponse): JsonResponse
     {
-        $content = $this->serializer->serialize($jmsResponse, $this->config->getSerializeType(), $this->context);
+        $initialType = $this->getInitialType($jmsResponse);
+
+        $content = $this->serializer->serialize(
+            $jmsResponse,
+            $this->config->getSerializeType(),
+            $this->context,
+            $initialType
+        );
 
         return new JsonResponse($content, $this->status, ['application/json'], true);
     }
@@ -62,5 +70,14 @@ class ResponseFactory
         $content = $this->serializer->serialize($jmsResponse, $this->config->getSerializeType(), $this->context);
 
         return new JsonResponse($content, $this->status, ['application/json'], true);
+    }
+
+    private function getInitialType(object $jmsResponse): ?string
+    {
+        if ($jmsResponse instanceof ArrayIterator) {
+            return 'array';
+        }
+
+        return null;
     }
 }
