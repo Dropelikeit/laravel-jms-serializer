@@ -12,19 +12,8 @@ use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
  */
 class Config
 {
-    /**
-     * @var string
-     */
     public const SERIALIZE_TYPE_JSON = 'json';
-
-    /**
-     * @var string
-     */
     public const SERIALIZE_TYPE_XML = 'xml';
-
-    /**
-     * @var string
-     */
     private const CACHE_DIR = '/serializer/';
 
     /**
@@ -35,7 +24,7 @@ class Config
     /**
      * @var bool
      */
-    private $shouldSerializeNull = false;
+    private $shouldSerializeNull;
 
     /**
      * @var string
@@ -71,11 +60,16 @@ class Config
         if (!in_array($config['serialize_type'], [
             self::SERIALIZE_TYPE_JSON,
             self::SERIALIZE_TYPE_XML,
-        ])) {
+        ], true)) {
             throw SerializeType::fromUnsupportedSerializeType($config['serialize_type']);
         }
 
-        return new self($config['cache_dir'], $config['serialize_null'], $config['serialize_type'], $config['debug']);
+        return new self(
+            $config['cache_dir'],
+            (bool) $config['serialize_null'],
+            $config['serialize_type'],
+            (bool) $config['debug']
+        );
     }
 
     public function getCacheDir(): string

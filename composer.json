@@ -39,15 +39,21 @@
   "require-dev": {
     "roave/security-advisories": "dev-master",
     "friendsofphp/php-cs-fixer": "^2.16",
-    "phpunit/phpunit": "^8.5"
+    "phpunit/phpunit": "^8.5",
+    "nunomaduro/larastan": "^0.6.4",
+    "orchestra/testbench": "^3.2|^4.0|^5.0",
+    "phpstan/phpstan-phpunit": "^0.12.16"
   },
   "scripts": {
     "cs-check": "php-cs-fixer -v --dry-run --using-cache=no fix",
     "cs-fix": "php-cs-fixer --using-cache=no fix",
     "test": "phpunit",
     "test-coverage": "phpunit --coverage-clover build/logs/clover.xml",
+    "analyze": "phpstan analyze --no-progress --memory-limit=-1",
+    "update-baseline": "phpstan analyze --generate-baseline --memory-limit=-1",
     "check": [
       "@cs-check",
+      "@analyze",
       "@test",
       "@test-coverage"
     ]
