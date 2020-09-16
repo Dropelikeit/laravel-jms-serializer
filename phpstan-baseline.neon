@@ -1,0 +1,42 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method Dropelikeit\\\\LaravelJmsSerializer\\\\Config\\\\Config\\:\\:fromConfig\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Config/Config.php
+
+		-
+			message: "#^Method Dropelikeit\\\\LaravelJmsSerializer\\\\ResponseFactory\\:\\:createFromArray\\(\\) has parameter \\$jmsResponse with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/ResponseFactory.php
+
+		-
+			message: "#^Method Dropelikeit\\\\LaravelJmsSerializer\\\\Tests\\\\Config\\\\ConfigTest\\:\\:canCreateConfig\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Config/ConfigTest.php
+
+		-
+			message: "#^Method Dropelikeit\\\\LaravelJmsSerializer\\\\Tests\\\\Config\\\\ConfigTest\\:\\:dataProviderCanCreateConfig\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Config/ConfigTest.php
+
+		-
+			message: "#^Property Dropelikeit\\\\LaravelJmsSerializer\\\\Tests\\\\ResponseFactory\\\\Dummy\\:\\:\\$items type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/ResponseFactory/Dummy.php
+
+		-
+			message: "#^Method Dropelikeit\\\\LaravelJmsSerializer\\\\Tests\\\\ResponseFactory\\\\Response\\:\\:__construct\\(\\) has parameter \\$items with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/ResponseFactory/Response.php
+
+		-
+			message: "#^Method Dropelikeit\\\\LaravelJmsSerializer\\\\Tests\\\\ResponseFactory\\\\Response\\:\\:create\\(\\) has parameter \\$items with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/ResponseFactory/Response.php
+
+		-
+			message: "#^Method Dropelikeit\\\\LaravelJmsSerializer\\\\Tests\\\\ResponseFactory\\\\Response\\:\\:create\\(\\) return type has no value type specified in iterable type Dropelikeit\\\\LaravelJmsSerializer\\\\Tests\\\\ResponseFactory\\\\Response\\.$#"
+			count: 1
+			path: tests/ResponseFactory/Response.php
+
