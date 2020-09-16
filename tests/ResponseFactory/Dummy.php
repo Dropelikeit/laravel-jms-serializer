@@ -1,15 +1,15 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory;
 
+use Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory\Response\Item;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
  */
-class Dummy
+final class Dummy
 {
     /**
      * @Serializer\Type("integer")
@@ -24,8 +24,9 @@ class Dummy
     private $text = 'Hello World!';
 
     /**
-     * @Serializer\Type("array")
-     * @var array
+     * @Serializer\Type("array<Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory\Response\Item>")
+     * @var array<int, Item>|null
+     * @psalm-param list<Item>
      */
     public $items;
 }
