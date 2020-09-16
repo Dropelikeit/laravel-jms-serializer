@@ -36,7 +36,7 @@ class ServiceProvider extends BaseServiceProvider
             'debug' => $debug,
         ]);
 
-        $this->app->singleton(ResponseFactory::class, function () use ($config) {
+        $this->app->singleton(ResponseFactory::class, function () use ($config): ResponseFactory {
             return new ResponseFactory((new Factory())->getSerializer($config), $config);
         });
     }
