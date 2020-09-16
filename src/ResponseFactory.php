@@ -1,11 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer;
 
 use ArrayIterator;
-use Dropelikeit\LaravelJmsSerializer\Config\Config;
+use Dropelikeit\LaravelJmsSerializer\Config\ConfigInterface;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
  */
-class ResponseFactory
+final class ResponseFactory
 {
     /**
      * @var SerializerInterface
@@ -21,7 +20,7 @@ class ResponseFactory
     private $serializer;
 
     /**
-     * @var Config
+     * @var ConfigInterface
      */
     private $config;
 
@@ -35,7 +34,7 @@ class ResponseFactory
      */
     private $context;
 
-    public function __construct(SerializerInterface $serializer, Config $config)
+    public function __construct(SerializerInterface $serializer, ConfigInterface $config)
     {
         $this->serializer = $serializer;
         $this->config = $config;
@@ -65,6 +64,11 @@ class ResponseFactory
         return new JsonResponse($content, $this->status, ['application/json'], true);
     }
 
+    /**
+     * @param array<int|string, mixed> $jmsResponse
+     *
+     * @return JsonResponse
+     */
     public function createFromArray(array $jmsResponse): JsonResponse
     {
         $content = $this->serializer->serialize($jmsResponse, $this->config->getSerializeType(), $this->context);

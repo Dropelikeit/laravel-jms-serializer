@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer\Tests\Config;
@@ -12,12 +11,13 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
  */
-class ConfigTest extends TestCase
+final class ConfigTest extends TestCase
 {
     /**
      * @test
      * @dataProvider dataProviderCanCreateConfig
-     * @param array $config
+     * @param array<string, bool|string> $config
+     * @psalm-param array{serialize_null: bool, cache_dir: string, serialize_type: string, debug: false} $config
      * @param bool $throwMissingException
      * @param bool $throwWrongTypeException
      */
@@ -33,12 +33,15 @@ class ConfigTest extends TestCase
 
         $configTest = Config::fromConfig($config);
 
-        $this->assertEquals($config['serialize_null'], $configTest->shouldSerializeNull());
-        $this->assertEquals(sprintf('%s%s', $config['cache_dir'], '/serializer/'), $configTest->getCacheDir());
-        $this->assertEquals($config['serialize_type'], $configTest->getSerializeType());
-        $this->assertEquals($config['debug'], $configTest->debug());
+        self::assertEquals($config['serialize_null'], $configTest->shouldSerializeNull());
+        self::assertEquals(sprintf('%s%s', $config['cache_dir'], '/serializer/'), $configTest->getCacheDir());
+        self::assertEquals($config['serialize_type'], $configTest->getSerializeType());
+        self::assertEquals($config['debug'], $configTest->debug());
     }
 
+    /**
+     * @return array<string, array<int, mixed>>
+     */
     public function dataProviderCanCreateConfig(): array
     {
         return [

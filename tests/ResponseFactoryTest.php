@@ -1,11 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer\Tests;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
+use Dropelikeit\LaravelJmsSerializer\Config\ConfigInterface;
 use Dropelikeit\LaravelJmsSerializer\ResponseFactory;
 use Dropelikeit\LaravelJmsSerializer\Serializer\Factory;
 use Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory\Dummy;
@@ -17,10 +17,10 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
  */
-class ResponseFactoryTest extends TestCase
+final class ResponseFactoryTest extends TestCase
 {
     /**
-     * @var MockObject|Config
+     * @var MockObject|ConfigInterface
      */
     private $config;
 
@@ -30,7 +30,7 @@ class ResponseFactoryTest extends TestCase
 
         AnnotationRegistry::registerLoader('class_exists');
 
-        $this->config = $this->getMockBuilder(Config::class)->disableOriginalConstructor()->getMock();
+        $this->config = $this->getMockBuilder(ConfigInterface::class)->disableOriginalConstructor()->getMock();
     }
 
     /**
@@ -39,17 +39,17 @@ class ResponseFactoryTest extends TestCase
     public function canCreateResponse(): void
     {
         $this->config
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getCacheDir')
             ->willReturn(__DIR__);
 
         $this->config
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('debug')
             ->willReturn(true);
 
         $this->config
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getSerializeType')
             ->willReturn(Config::SERIALIZE_TYPE_JSON);
 
@@ -57,8 +57,8 @@ class ResponseFactoryTest extends TestCase
 
         $response = $responseFactory->create(new Dummy());
 
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('{"amount":12,"text":"Hello World!"}', $response->getContent());
+        self::assertEquals(200, $response->getStatusCode());
+        self::assertEquals('{"amount":12,"text":"Hello World!"}', $response->getContent());
     }
 
     /**
@@ -67,17 +67,17 @@ class ResponseFactoryTest extends TestCase
     public function canCreateFromArrayIterator(): void
     {
         $this->config
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getCacheDir')
             ->willReturn(__DIR__);
 
         $this->config
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('debug')
             ->willReturn(true);
 
         $this->config
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getSerializeType')
             ->willReturn(Config::SERIALIZE_TYPE_JSON);
 
@@ -85,8 +85,8 @@ class ResponseFactoryTest extends TestCase
 
         $response = $responseFactory->create(Response::create([new Response\Item()]));
 
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('[{"key":"magic_number","value":12}]', $response->getContent());
+        self::assertEquals(200, $response->getStatusCode());
+        self::assertEquals('[{"key":"magic_number","value":12}]', $response->getContent());
     }
 
     /**
@@ -126,17 +126,17 @@ class ResponseFactoryTest extends TestCase
     public function canChangeStatusCode(): void
     {
         $this->config
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getCacheDir')
             ->willReturn(__DIR__);
 
         $this->config
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('debug')
             ->willReturn(true);
 
         $this->config
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getSerializeType')
             ->willReturn(Config::SERIALIZE_TYPE_JSON);
 
@@ -146,8 +146,8 @@ class ResponseFactoryTest extends TestCase
 
         $response = $responseFactory->create(new Dummy());
 
-        $this->assertEquals(404, $response->getStatusCode());
-        $this->assertEquals('{"amount":12,"text":"Hello World!"}', $response->getContent());
+        self::assertEquals(404, $response->getStatusCode());
+        self::assertEquals('{"amount":12,"text":"Hello World!"}', $response->getContent());
     }
 
     /**
@@ -156,17 +156,17 @@ class ResponseFactoryTest extends TestCase
     public function canUseGivenContext(): void
     {
         $this->config
-            ->expects($this->once())
+            ->expects(self::once())
         ->method('getCacheDir')
         ->willReturn(__DIR__);
 
         $this->config
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('debug')
             ->willReturn(true);
 
         $this->config
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getSerializeType')
             ->willReturn(Config::SERIALIZE_TYPE_JSON);
 
@@ -175,6 +175,6 @@ class ResponseFactoryTest extends TestCase
 
         $response = $responseFactory->create(new Dummy());
 
-        $this->assertEquals('{"amount":12,"text":"Hello World!","items":null}', $response->getContent());
+        self::assertEquals('{"amount":12,"text":"Hello World!","items":null}', $response->getContent());
     }
 }

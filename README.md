@@ -20,16 +20,13 @@ You are also welcome to use the Issue Tracker to set bugs, improvements or upgra
 
 ``` composer require dropelikeit/laravel-jms-serializer ```
 
-
+### Support note
+    
+Laravel 5.* is no longer supported with release v2.0.0 and higher.
 
 ### How to use
 
-Laravel 5.5 and later uses Package Auto-Discovery, so you do not need to add the service provider manually. 
-For Laravel versions below 5.5, the package must be added manually, add the following line in the "providers" array in config/app.php:
-
-```php 
-    Dropelikeit\LaravelJmsSerializer\ServiceProvider::class,
-```
+Laravel uses Package Auto-Discovery, so you do not need to add the service provider manually. 
 
 For example, to use the JMS serializer in a controller, add the ResponseFactory in the constructor.
 

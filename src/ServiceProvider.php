@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer;
@@ -12,7 +11,7 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
  */
-class ServiceProvider extends BaseServiceProvider
+final class ServiceProvider extends BaseServiceProvider
 {
     /**
      * Register any application services.

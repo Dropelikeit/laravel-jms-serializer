@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer\Config;
@@ -10,21 +9,10 @@ use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
  */
-class Config
+final class Config implements ConfigInterface
 {
-    /**
-     * @var string
-     */
     public const SERIALIZE_TYPE_JSON = 'json';
-
-    /**
-     * @var string
-     */
     public const SERIALIZE_TYPE_XML = 'xml';
-
-    /**
-     * @var string
-     */
     private const CACHE_DIR = '/serializer/';
 
     /**
@@ -35,7 +23,7 @@ class Config
     /**
      * @var bool
      */
-    private $shouldSerializeNull = false;
+    private $shouldSerializeNull;
 
     /**
      * @var string
@@ -55,6 +43,12 @@ class Config
         $this->debug = $debug;
     }
 
+    /**
+     * @param array<string, bool|string> $config
+     * @psalm-param array{serialize_null: bool, cache_dir: string, serialize_type: string, debug: bool} $config
+     *
+     * @return self
+     */
     public static function fromConfig(array $config): self
     {
         $missing = array_diff([
@@ -71,11 +65,16 @@ class Config
         if (!in_array($config['serialize_type'], [
             self::SERIALIZE_TYPE_JSON,
             self::SERIALIZE_TYPE_XML,
-        ])) {
+        ], true)) {
             throw SerializeType::fromUnsupportedSerializeType($config['serialize_type']);
         }
 
-        return new self($config['cache_dir'], $config['serialize_null'], $config['serialize_type'], $config['debug']);
+        return new self(
+            $config['cache_dir'],
+            (bool) $config['serialize_null'],
+            $config['serialize_type'],
+            (bool) $config['debug']
+        );
     }
 
     public function getCacheDir(): string
