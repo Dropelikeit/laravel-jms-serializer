@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer\Exception;
@@ -10,7 +9,7 @@ use InvalidArgumentException;
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
  */
-class SerializeType extends InvalidArgumentException
+final class SerializeType extends InvalidArgumentException
 {
     public static function fromUnsupportedSerializeType(string $type): self
     {

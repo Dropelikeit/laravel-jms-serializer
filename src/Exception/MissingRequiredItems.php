@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer\Exception;
@@ -9,7 +8,7 @@ use InvalidArgumentException;
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
  */
-class MissingRequiredItems extends InvalidArgumentException
+final class MissingRequiredItems extends InvalidArgumentException
 {
     public static function fromConfig(string $fields): self
     {

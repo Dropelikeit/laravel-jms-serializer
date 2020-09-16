@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer\Config;
@@ -10,7 +9,7 @@ use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
  */
-class Config
+final class Config implements ConfigInterface
 {
     public const SERIALIZE_TYPE_JSON = 'json';
     public const SERIALIZE_TYPE_XML = 'xml';
@@ -44,6 +43,12 @@ class Config
         $this->debug = $debug;
     }
 
+    /**
+     * @param array<string, bool|string> $config
+     * @psalm-param array{serialize_null: bool, cache_dir: string, serialize_type: string, debug: bool} $config
+     *
+     * @return self
+     */
     public static function fromConfig(array $config): self
     {
         $missing = array_diff([
