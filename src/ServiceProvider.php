@@ -51,7 +51,7 @@ class ServiceProvider extends BaseServiceProvider
         AnnotationRegistry::registerLoader('class_exists');
 
         $configPath = __DIR__ . '/../config/laravel-jms-serializer.php';
-        $this->publishes([$configPath => $this->getConfigPath()], 'config');
+        $this->publishes([$configPath => $this->getConfigPath()], 'laravel-jms');
     }
 
     /**
