@@ -39,7 +39,7 @@ class ResponseFactoryTest extends TestCase
     public function canCreateResponse(): void
     {
         $this->config
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('getCacheDir')
             ->willReturn(__DIR__);
 
@@ -67,7 +67,7 @@ class ResponseFactoryTest extends TestCase
     public function canCreateFromArrayIterator(): void
     {
         $this->config
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('getCacheDir')
             ->willReturn(__DIR__);
 
@@ -95,7 +95,7 @@ class ResponseFactoryTest extends TestCase
     public function canCreateResponseFromArray(): void
     {
         $this->config
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('getCacheDir')
             ->willReturn(__DIR__);
 
@@ -126,7 +126,7 @@ class ResponseFactoryTest extends TestCase
     public function canChangeStatusCode(): void
     {
         $this->config
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('getCacheDir')
             ->willReturn(__DIR__);
 
@@ -156,7 +156,7 @@ class ResponseFactoryTest extends TestCase
     public function canUseGivenContext(): void
     {
         $this->config
-            ->expects($this->once())
+            ->expects($this->exactly(2))
         ->method('getCacheDir')
         ->willReturn(__DIR__);
 
