@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Dropelikeit\LaravelJmsSerializer\Tests;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
+use Dropelikeit\LaravelJmsSerializer\Config\Config;
 use Dropelikeit\LaravelJmsSerializer\Config\ConfigInterface;
 use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
 use Dropelikeit\LaravelJmsSerializer\ResponseFactory;
