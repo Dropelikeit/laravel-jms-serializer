@@ -6,6 +6,7 @@ namespace Dropelikeit\LaravelJmsSerializer\Tests;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
 use Dropelikeit\LaravelJmsSerializer\Config\ConfigInterface;
+use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
 use Dropelikeit\LaravelJmsSerializer\ResponseFactory;
 use Dropelikeit\LaravelJmsSerializer\Serializer\Factory;
 use Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory\Dummy;
@@ -39,7 +40,7 @@ final class ResponseFactoryTest extends TestCase
     public function canCreateResponse(): void
     {
         $this->config
-            ->expects(self::once())
+            ->expects(self::exactly(2))
             ->method('getCacheDir')
             ->willReturn(__DIR__);
 
@@ -67,7 +68,7 @@ final class ResponseFactoryTest extends TestCase
     public function canCreateFromArrayIterator(): void
     {
         $this->config
-            ->expects(self::once())
+            ->expects(self::exactly(2))
             ->method('getCacheDir')
             ->willReturn(__DIR__);
 
@@ -95,17 +96,17 @@ final class ResponseFactoryTest extends TestCase
     public function canCreateResponseFromArray(): void
     {
         $this->config
-            ->expects($this->once())
+            ->expects(self::exactly(2))
             ->method('getCacheDir')
             ->willReturn(__DIR__);
 
         $this->config
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('debug')
             ->willReturn(true);
 
         $this->config
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getSerializeType')
             ->willReturn(Config::SERIALIZE_TYPE_JSON);
 
@@ -113,8 +114,8 @@ final class ResponseFactoryTest extends TestCase
 
         $response = $responseFactory->createFromArray(require __DIR__ . '/ResponseFactory/dummy_array.php');
 
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(
+        self::assertEquals(200, $response->getStatusCode());
+        self::assertEquals(
             '{"some_objects":{"person":{"first_name":"Max","last_name":"Mustermann","birthdate":"01.01.1976","birth_place":"Berlin","nationality":"german"}}}',
             $response->getContent()
         );
@@ -126,7 +127,7 @@ final class ResponseFactoryTest extends TestCase
     public function canChangeStatusCode(): void
     {
         $this->config
-            ->expects(self::once())
+            ->expects(self::exactly(2))
             ->method('getCacheDir')
             ->willReturn(__DIR__);
 
@@ -156,7 +157,7 @@ final class ResponseFactoryTest extends TestCase
     public function canUseGivenContext(): void
     {
         $this->config
-            ->expects(self::once())
+            ->expects(self::exactly(2))
         ->method('getCacheDir')
         ->willReturn(__DIR__);
 
@@ -176,5 +177,69 @@ final class ResponseFactoryTest extends TestCase
         $response = $responseFactory->create(new Dummy());
 
         self::assertEquals('{"amount":12,"text":"Hello World!","items":null}', $response->getContent());
+    }
+
+    /**
+     * @test
+     */
+    public function canWithSerializeType(): void
+    {
+        $this->config
+            ->expects(self::exactly(3))
+            ->method('getCacheDir')
+            ->willReturn(__DIR__);
+
+        $this->config
+            ->expects(self::once())
+            ->method('debug')
+            ->willReturn(true);
+
+        $this->config
+            ->expects(self::exactly(2))
+            ->method('getSerializeType')
+            ->willReturn(Config::SERIALIZE_TYPE_JSON);
+
+        $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
+        $responseFactory->withContext(SerializationContext::create()->setSerializeNull(true));
+        $responseFactory = $responseFactory->withSerializeType(Config::SERIALIZE_TYPE_XML);
+
+        $response = $responseFactory->create(new Dummy());
+
+        self::assertEquals(
+            '<?xml version="1.0" encoding="UTF-8"?>
+<result>
+  <amount>12</amount>
+  <text><![CDATA[Hello World!]]></text>
+</result>
+',
+            $response->getContent()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function canNotCreateWithUnknownSerializeType(): void
+    {
+        $this->expectException(SerializeType::class);
+
+        $this->config
+            ->expects(self::exactly(2))
+            ->method('getCacheDir')
+            ->willReturn(__DIR__);
+
+        $this->config
+            ->expects(self::once())
+            ->method('debug')
+            ->willReturn(true);
+
+        $this->config
+            ->expects(self::once())
+            ->method('getSerializeType')
+            ->willReturn(Config::SERIALIZE_TYPE_JSON);
+
+        $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
+        $responseFactory->withContext(SerializationContext::create()->setSerializeNull(true));
+        $responseFactory->withSerializeType('array');
     }
 }
