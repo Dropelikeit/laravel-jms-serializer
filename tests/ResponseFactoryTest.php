@@ -40,7 +40,7 @@ final class ResponseFactoryTest extends TestCase
     public function canCreateResponse(): void
     {
         $this->config
-            ->expects(self::exactly(2))
+            ->expects(self::once())
             ->method('getCacheDir')
             ->willReturn(__DIR__);
 
@@ -68,7 +68,7 @@ final class ResponseFactoryTest extends TestCase
     public function canCreateFromArrayIterator(): void
     {
         $this->config
-            ->expects(self::exactly(2))
+            ->expects(self::once())
             ->method('getCacheDir')
             ->willReturn(__DIR__);
 
@@ -96,7 +96,7 @@ final class ResponseFactoryTest extends TestCase
     public function canCreateResponseFromArray(): void
     {
         $this->config
-            ->expects(self::exactly(2))
+            ->expects(self::once())
             ->method('getCacheDir')
             ->willReturn(__DIR__);
 
@@ -127,7 +127,7 @@ final class ResponseFactoryTest extends TestCase
     public function canChangeStatusCode(): void
     {
         $this->config
-            ->expects(self::exactly(2))
+            ->expects(self::once())
             ->method('getCacheDir')
             ->willReturn(__DIR__);
 
@@ -157,7 +157,7 @@ final class ResponseFactoryTest extends TestCase
     public function canUseGivenContext(): void
     {
         $this->config
-            ->expects(self::exactly(2))
+            ->expects(self::once())
         ->method('getCacheDir')
         ->willReturn(__DIR__);
 
@@ -185,7 +185,7 @@ final class ResponseFactoryTest extends TestCase
     public function canWithSerializeType(): void
     {
         $this->config
-            ->expects(self::exactly(3))
+            ->expects(self::once())
             ->method('getCacheDir')
             ->willReturn(__DIR__);
 
@@ -224,7 +224,7 @@ final class ResponseFactoryTest extends TestCase
         $this->expectException(SerializeType::class);
 
         $this->config
-            ->expects(self::exactly(2))
+            ->expects(self::once())
             ->method('getCacheDir')
             ->willReturn(__DIR__);
 

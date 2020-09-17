@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Dropelikeit\LaravelJmsSerializer;
 
 use ArrayIterator;
+use Dropelikeit\LaravelJmsSerializer\Config\Config;
 use Dropelikeit\LaravelJmsSerializer\Config\ConfigInterface;
 use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
 use JMS\Serializer\SerializationContext;
@@ -40,17 +41,11 @@ final class ResponseFactory
      */
     private $serializeType;
 
-    /**
-     * @var string
-     */
-    private $cacheDir;
-
     public function __construct(SerializerInterface $serializer, ConfigInterface $config)
     {
         $this->config = $config;
         $this->serializer = $serializer;
         $this->serializeType = $config->getSerializeType();
-        $this->cacheDir = $config->getCacheDir();
     }
 
     public function withStatusCode(int $code): void
