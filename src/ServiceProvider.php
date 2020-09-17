@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer;
@@ -12,7 +11,7 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
  */
-class ServiceProvider extends BaseServiceProvider
+final class ServiceProvider extends BaseServiceProvider
 {
     /**
      * Register any application services.
@@ -36,7 +35,7 @@ class ServiceProvider extends BaseServiceProvider
             'debug' => $debug,
         ]);
 
-        $this->app->singleton(ResponseFactory::class, function () use ($config) {
+        $this->app->singleton(ResponseFactory::class, function () use ($config): ResponseFactory {
             return new ResponseFactory((new Factory())->getSerializer($config), $config);
         });
     }
@@ -51,7 +50,7 @@ class ServiceProvider extends BaseServiceProvider
         AnnotationRegistry::registerLoader('class_exists');
 
         $configPath = __DIR__ . '/../config/laravel-jms-serializer.php';
-        $this->publishes([$configPath => $this->getConfigPath()], 'config');
+        $this->publishes([$configPath => $this->getConfigPath()], 'laravel-jms');
     }
 
     /**

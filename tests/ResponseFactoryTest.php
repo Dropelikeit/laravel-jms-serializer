@@ -1,11 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer\Tests;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use Dropelikeit\LaravelJmsSerializer\Config\Config;
+use Dropelikeit\LaravelJmsSerializer\Config\ConfigInterface;
 use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
 use Dropelikeit\LaravelJmsSerializer\ResponseFactory;
 use Dropelikeit\LaravelJmsSerializer\Serializer\Factory;
@@ -18,10 +17,10 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
  */
-class ResponseFactoryTest extends TestCase
+final class ResponseFactoryTest extends TestCase
 {
     /**
-     * @var MockObject|Config
+     * @var MockObject|ConfigInterface
      */
     private $config;
 
@@ -31,7 +30,7 @@ class ResponseFactoryTest extends TestCase
 
         AnnotationRegistry::registerLoader('class_exists');
 
-        $this->config = $this->getMockBuilder(Config::class)->disableOriginalConstructor()->getMock();
+        $this->config = $this->getMockBuilder(ConfigInterface::class)->disableOriginalConstructor()->getMock();
     }
 
     /**

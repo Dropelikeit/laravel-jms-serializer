@@ -1,10 +1,9 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer\Serializer;
 
-use Dropelikeit\LaravelJmsSerializer\Config\Config;
+use Dropelikeit\LaravelJmsSerializer\Config\ConfigInterface;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
 use JMS\Serializer\SerializationContext;
@@ -14,9 +13,9 @@ use JMS\Serializer\SerializerInterface;
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
  */
-class Factory
+final class Factory
 {
-    public function getSerializer(Config $config): SerializerInterface
+    public function getSerializer(ConfigInterface $config): SerializerInterface
     {
         $builder = new SerializerBuilder();
 
@@ -28,7 +27,7 @@ class Factory
             )
             ->addDefaultHandlers()
             ->addDefaultListeners()
-            ->setSerializationContextFactory(function () use ($config) {
+            ->setSerializationContextFactory(static function () use ($config) {
                 return SerializationContext::create()
                     ->setSerializeNull($config->shouldSerializeNull())
                     ;

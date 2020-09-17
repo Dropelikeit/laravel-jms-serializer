@@ -11,11 +11,12 @@
     }
   ],
   "require": {
-    "illuminate/http": "^5.2|^6.0|^7.0",
-    "illuminate/support": "^5.2|^6.0|^7.0",
-    "illuminate/contracts": "^5.2|^6.0|^7.0",
+    "illuminate/http": "^6.0|^7.0",
+    "illuminate/support": "^6.0|^7.0",
+    "illuminate/contracts": "^6.0|^7.0",
     "jms/serializer": "^3.4",
-    "doctrine/cache": "^1.10"
+    "doctrine/cache": "^1.10",
+    "php": "^7.3"
   },
   "autoload": {
     "psr-4": {
@@ -36,16 +37,23 @@
     }
   },
   "require-dev": {
+    "roave/security-advisories": "dev-master",
     "friendsofphp/php-cs-fixer": "^2.16",
-    "phpunit/phpunit": "^8.5"
+    "phpunit/phpunit": "^9.3",
+    "nunomaduro/larastan": "^0.6.4",
+    "orchestra/testbench": "^4.0|^5.0",
+    "phpstan/phpstan-phpunit": "^0.12.16"
   },
   "scripts": {
     "cs-check": "php-cs-fixer -v --dry-run --using-cache=no fix",
     "cs-fix": "php-cs-fixer --using-cache=no fix",
     "test": "phpunit",
     "test-coverage": "phpunit --coverage-clover build/logs/clover.xml",
+    "analyze": "phpstan analyze --no-progress --memory-limit=-1",
+    "update-baseline": "phpstan analyze --generate-baseline --memory-limit=-1",
     "check": [
       "@cs-check",
+      "@analyze",
       "@test",
       "@test-coverage"
     ]
