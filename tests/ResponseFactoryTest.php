@@ -180,9 +180,13 @@ final class ResponseFactoryTest extends TestCase
     }
 
     /**
+     * @param string $changeSerializeTypeTo
+     * @param string $expectedResult
+     *
      * @test
+     * @dataProvider dataProviderCanSerializeWithSerializeType
      */
-    public function canWithSerializeType(): void
+    public function canSerializeWithSerializeType(string $changeSerializeTypeTo, string $expectedResult): void
     {
         $this->config
             ->expects(self::once())
@@ -201,19 +205,37 @@ final class ResponseFactoryTest extends TestCase
 
         $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
         $responseFactory->withContext(SerializationContext::create()->setSerializeNull(true));
-        $responseFactory = $responseFactory->withSerializeType(Config::SERIALIZE_TYPE_XML);
+        $responseFactory = $responseFactory->withSerializeType($changeSerializeTypeTo);
 
         $response = $responseFactory->create(new Dummy());
 
         self::assertEquals(
-            '<?xml version="1.0" encoding="UTF-8"?>
+            $expectedResult,
+            $response->getContent()
+        );
+    }
+
+    /**
+     * @return array<string, array<int, string>>
+     * @psalm-return array{with_json: array<int, string>, 'with_xml': array<int, string>}
+     */
+    public function dataProviderCanSerializeWithSerializeType(): array
+    {
+        return [
+            'with_json' => [
+                Config::SERIALIZE_TYPE_JSON,
+                '{"amount":12,"text":"Hello World!"}',
+            ],
+            'with_xml' => [
+                Config::SERIALIZE_TYPE_XML,
+                '<?xml version="1.0" encoding="UTF-8"?>
 <result>
   <amount>12</amount>
   <text><![CDATA[Hello World!]]></text>
 </result>
 ',
-            $response->getContent()
-        );
+            ],
+        ];
     }
 
     /**

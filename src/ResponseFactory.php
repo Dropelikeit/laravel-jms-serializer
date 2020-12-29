@@ -7,9 +7,11 @@ use ArrayIterator;
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
 use Dropelikeit\LaravelJmsSerializer\Config\ConfigInterface;
 use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
+use Illuminate\Http\Response as LaravelResponse;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
@@ -70,7 +72,7 @@ final class ResponseFactory
         return $instance;
     }
 
-    public function create(object $jmsResponse): JsonResponse
+    public function create(object $jmsResponse): Response
     {
         $initialType = $this->getInitialType($jmsResponse);
 
@@ -81,19 +83,27 @@ final class ResponseFactory
             $initialType
         );
 
-        return new JsonResponse($content, $this->status, ['application/json'], true);
+        if ($this->serializeType === Config::SERIALIZE_TYPE_XML) {
+            return new LaravelResponse($content, $this->status, ['Content-Type' => 'application/xml']);
+        }
+
+        return new JsonResponse($content, $this->status, ['Content-Type' => 'application/json'], true);
     }
 
     /**
      * @param array<int|string, mixed> $jmsResponse
      *
-     * @return JsonResponse
+     * @return Response
      */
-    public function createFromArray(array $jmsResponse): JsonResponse
+    public function createFromArray(array $jmsResponse): Response
     {
         $content = $this->serializer->serialize($jmsResponse, $this->serializeType, $this->context);
 
-        return new JsonResponse($content, $this->status, ['application/json'], true);
+        if ($this->serializeType === Config::SERIALIZE_TYPE_XML) {
+            return new LaravelResponse($content, $this->status, ['Content-Type' => 'application/xml']);
+        }
+
+        return new JsonResponse($content, $this->status, ['Content-Type' => 'application/json'], true);
     }
 
     private function getInitialType(object $jmsResponse): ?string
