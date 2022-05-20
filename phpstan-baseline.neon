@@ -1,32 +1,7 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Cannot access offset 'config' on Illuminate\\\\Contracts\\\\Foundation\\\\Application\\.$#"
-			count: 3
-			path: src/ServiceProvider.php
-
-		-
-			message: "#^Property Dropelikeit\\\\LaravelJmsSerializer\\\\Tests\\\\ResponseFactory\\\\Dummy\\:\\:\\$amount is never read, only written\\.$#"
-			count: 1
-			path: tests/ResponseFactory/Dummy.php
-
-		-
-			message: "#^Property Dropelikeit\\\\LaravelJmsSerializer\\\\Tests\\\\ResponseFactory\\\\Dummy\\:\\:\\$text is never read, only written\\.$#"
-			count: 1
-			path: tests/ResponseFactory/Dummy.php
-
-		-
-			message: "#^Class Dropelikeit\\\\LaravelJmsSerializer\\\\Tests\\\\ResponseFactory\\\\Response extends generic class ArrayIterator but does not specify its types\\: TKey, TValue$#"
+			message: "#^Method Dropelikeit\\\\LaravelJmsSerializer\\\\Tests\\\\ResponseFactory\\\\Response\\:\\:create\\(\\) return type has no value type specified in iterable type Dropelikeit\\\\LaravelJmsSerializer\\\\Tests\\\\ResponseFactory\\\\Response\\.$#"
 			count: 1
 			path: tests/ResponseFactory/Response.php
-
-		-
-			message: "#^Property Dropelikeit\\\\LaravelJmsSerializer\\\\Tests\\\\ResponseFactory\\\\Response\\\\Item\\:\\:\\$key is never read, only written\\.$#"
-			count: 1
-			path: tests/ResponseFactory/Response/Item.php
-
-		-
-			message: "#^Property Dropelikeit\\\\LaravelJmsSerializer\\\\Tests\\\\ResponseFactory\\\\Response\\\\Item\\:\\:\\$value is never read, only written\\.$#"
-			count: 1
-			path: tests/ResponseFactory/Response/Item.php
 
