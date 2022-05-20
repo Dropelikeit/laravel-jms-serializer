@@ -38,7 +38,7 @@
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
-    "friendsofphp/php-cs-fixer": "^3.8",
+    "friendsofphp/php-cs-fixer": "^2.16|^3.8",
     "phpunit/phpunit": "^9.5",
     "nunomaduro/larastan": "^2.1",
     "orchestra/testbench": "^4.0|^5.0|^6.0|^7.0",
