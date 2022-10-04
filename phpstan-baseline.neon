@@ -5,3 +5,8 @@ parameters:
 			count: 3
 			path: src/ServiceProvider.php
 
+		-
+			message: "#^Class Dropelikeit\\\\LaravelJmsSerializer\\\\Tests\\\\ResponseFactory\\\\Response extends generic class ArrayIterator but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: tests/ResponseFactory/Response.php
+

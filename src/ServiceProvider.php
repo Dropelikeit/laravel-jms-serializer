@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer;
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
 use Dropelikeit\LaravelJmsSerializer\Contracts\ResponseBuilder;
 use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;
@@ -53,8 +52,6 @@ final class ServiceProvider extends BaseServiceProvider
      */
     public function boot(): void
     {
-        AnnotationRegistry::registerLoader('class_exists');
-
         $configPath = __DIR__ . '/../config/laravel-jms-serializer.php';
         $this->publishes([$configPath => $this->getConfigPath()], 'laravel-jms');
     }
