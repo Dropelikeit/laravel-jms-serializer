@@ -18,9 +18,9 @@ matrix:
   # Fast finish allows to set the build as "finished" even if the "allow_failures" matrix elements are not finished yet.
   fast_finish: true
   include:
-    - php: 7.3
     - php: 7.4
     - php: 8.0
+    - php: 8.1
   allow_failures:
     - php: hhvm
 
@@ -50,6 +50,8 @@ script:
   - composer test
   - phpunit --coverage-clover build/logs/clover.xml
   - composer cs-check
+  - composer analyze
+  - composer lint
 
 after_success:
   - travis_retry php php-coveralls.phar -v
