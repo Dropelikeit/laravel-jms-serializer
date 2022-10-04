@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Dropelikeit\LaravelJmsSerializer\Tests;
+namespace Dropelikeit\LaravelJmsSerializer\Tests\Http\Responses;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
-use Dropelikeit\LaravelJmsSerializer\Config\ConfigInterface;
+use Dropelikeit\LaravelJmsSerializer\Contracts;
 use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
-use Dropelikeit\LaravelJmsSerializer\ResponseFactory;
+use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;
 use Dropelikeit\LaravelJmsSerializer\Serializer\Factory;
 use Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory\Dummy;
 use Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory\Response;
@@ -21,9 +21,9 @@ use PHPUnit\Framework\TestCase;
 final class ResponseFactoryTest extends TestCase
 {
     /**
-     * @var MockObject|ConfigInterface
+     * @psalm-var MockObject&Contracts\Config
      */
-    private $config;
+    private MockObject $config;
 
     public function setUp(): void
     {
@@ -31,7 +31,10 @@ final class ResponseFactoryTest extends TestCase
 
         AnnotationRegistry::registerLoader('class_exists');
 
-        $this->config = $this->getMockBuilder(ConfigInterface::class)->disableOriginalConstructor()->getMock();
+        $this->config = $this
+            ->getMockBuilder(Contracts\Config::class)
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     /**
@@ -52,7 +55,7 @@ final class ResponseFactoryTest extends TestCase
         $this->config
             ->expects(self::once())
             ->method('getSerializeType')
-            ->willReturn(Config::SERIALIZE_TYPE_JSON);
+            ->willReturn(Contracts\Config::SERIALIZE_TYPE_JSON);
 
         $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
 
@@ -80,7 +83,7 @@ final class ResponseFactoryTest extends TestCase
         $this->config
             ->expects(self::once())
             ->method('getSerializeType')
-            ->willReturn(Config::SERIALIZE_TYPE_JSON);
+            ->willReturn(Contracts\Config::SERIALIZE_TYPE_JSON);
 
         $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
 
@@ -108,11 +111,11 @@ final class ResponseFactoryTest extends TestCase
         $this->config
             ->expects(self::once())
             ->method('getSerializeType')
-            ->willReturn(Config::SERIALIZE_TYPE_JSON);
+            ->willReturn(Contracts\Config::SERIALIZE_TYPE_JSON);
 
         $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
 
-        $response = $responseFactory->createFromArray(require __DIR__ . '/ResponseFactory/dummy_array.php');
+        $response = $responseFactory->createFromArray(require __DIR__ . '/../../ResponseFactory/dummy_array.php');
 
         self::assertEquals(200, $response->getStatusCode());
         self::assertEquals(
@@ -169,7 +172,7 @@ final class ResponseFactoryTest extends TestCase
         $this->config
             ->expects(self::once())
             ->method('getSerializeType')
-            ->willReturn(Config::SERIALIZE_TYPE_JSON);
+            ->willReturn(Contracts\Config::SERIALIZE_TYPE_JSON);
 
         $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
         $responseFactory->withContext(SerializationContext::create()->setSerializeNull(true));
@@ -201,7 +204,7 @@ final class ResponseFactoryTest extends TestCase
         $this->config
             ->expects(self::exactly(2))
             ->method('getSerializeType')
-            ->willReturn(Config::SERIALIZE_TYPE_JSON);
+            ->willReturn(Contracts\Config::SERIALIZE_TYPE_JSON);
 
         $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
         $responseFactory->withContext(SerializationContext::create()->setSerializeNull(true));
@@ -223,11 +226,11 @@ final class ResponseFactoryTest extends TestCase
     {
         return [
             'with_json' => [
-                Config::SERIALIZE_TYPE_JSON,
+                Contracts\Config::SERIALIZE_TYPE_JSON,
                 '{"amount":12,"text":"Hello World!"}',
             ],
             'with_xml' => [
-                Config::SERIALIZE_TYPE_XML,
+                Contracts\Config::SERIALIZE_TYPE_XML,
                 '<?xml version="1.0" encoding="UTF-8"?>
 <result>
   <amount>12</amount>
@@ -258,7 +261,7 @@ final class ResponseFactoryTest extends TestCase
         $this->config
             ->expects(self::once())
             ->method('getSerializeType')
-            ->willReturn(Config::SERIALIZE_TYPE_JSON);
+            ->willReturn(Contracts\Config::SERIALIZE_TYPE_JSON);
 
         $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
         $responseFactory->withContext(SerializationContext::create()->setSerializeNull(true));

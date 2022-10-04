@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer\Serializer;
 
-use Dropelikeit\LaravelJmsSerializer\Config\ConfigInterface;
+use Dropelikeit\LaravelJmsSerializer\Contracts\Config;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
 use JMS\Serializer\SerializationContext;
@@ -15,7 +15,7 @@ use JMS\Serializer\SerializerInterface;
  */
 final class Factory
 {
-    public function getSerializer(ConfigInterface $config): SerializerInterface
+    public function getSerializer(Config $config): SerializerInterface
     {
         $builder = new SerializerBuilder();
 

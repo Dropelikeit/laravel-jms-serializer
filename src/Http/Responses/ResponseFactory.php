@@ -1,16 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace Dropelikeit\LaravelJmsSerializer;
+namespace Dropelikeit\LaravelJmsSerializer\Http\Responses;
 
 use ArrayIterator;
-use Dropelikeit\LaravelJmsSerializer\Config\Config;
-use Dropelikeit\LaravelJmsSerializer\Config\ConfigInterface;
+use Dropelikeit\LaravelJmsSerializer\Contracts;
 use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
 use Illuminate\Http\Response as LaravelResponse;
+use function in_array;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -21,35 +22,40 @@ final class ResponseFactory
     /**
      * @var SerializerInterface
      */
-    private $serializer;
+    private SerializerInterface $serializer;
 
     /**
-     * @var ConfigInterface
+     * @var Contracts\Config
      */
-    private $config;
+    private Contracts\Config $config;
 
     /**
-     * @var int
+     * @var positive-int
      */
-    private $status = 200;
+    private int $status;
 
     /**
      * @var SerializationContext|null
      */
-    private $context;
+    private ?SerializationContext $context;
 
     /**
-     * @var string
+     * @var string 'json'|'xml'
      */
-    private $serializeType;
+    private string $serializeType;
 
-    public function __construct(SerializerInterface $serializer, ConfigInterface $config)
+    public function __construct(SerializerInterface $serializer, Contracts\Config $config)
     {
         $this->config = $config;
         $this->serializer = $serializer;
         $this->serializeType = $config->getSerializeType();
+        $this->status = 200;
+        $this->context = null;
     }
 
+    /**
+     * @psalm-param positive-int $code
+     */
     public function withStatusCode(int $code): void
     {
         $this->status = $code;
@@ -62,7 +68,10 @@ final class ResponseFactory
 
     public function withSerializeType(string $serializeType): self
     {
-        if (!in_array($serializeType, [Config::SERIALIZE_TYPE_JSON, Config::SERIALIZE_TYPE_XML], true)) {
+        if (!in_array($serializeType, [
+            Contracts\Config::SERIALIZE_TYPE_JSON,
+            Contracts\Config::SERIALIZE_TYPE_XML
+        ], true)) {
             throw SerializeType::fromUnsupportedSerializeType($serializeType);
         }
 
@@ -83,7 +92,7 @@ final class ResponseFactory
             $initialType
         );
 
-        if ($this->serializeType === Config::SERIALIZE_TYPE_XML) {
+        if ($this->serializeType === Contracts\Config::SERIALIZE_TYPE_XML) {
             return new LaravelResponse($content, $this->status, ['Content-Type' => 'application/xml']);
         }
 
@@ -99,7 +108,7 @@ final class ResponseFactory
     {
         $content = $this->serializer->serialize($jmsResponse, $this->serializeType, $this->context);
 
-        if ($this->serializeType === Config::SERIALIZE_TYPE_XML) {
+        if ($this->serializeType === Contracts\Config::SERIALIZE_TYPE_XML) {
             return new LaravelResponse($content, $this->status, ['Content-Type' => 'application/xml']);
         }
 

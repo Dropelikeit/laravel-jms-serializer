@@ -5,6 +5,8 @@ namespace Dropelikeit\LaravelJmsSerializer;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
+use Dropelikeit\LaravelJmsSerializer\Contracts\ResponseBuilder;
+use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;
 use Dropelikeit\LaravelJmsSerializer\Serializer\Factory;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
@@ -14,18 +16,17 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 final class ServiceProvider extends BaseServiceProvider
 {
     /**
-     * Register any application services.
-     *
-     * @return void
+     * @description Register any application services.
      */
-    public function register()
+    public function register(): void
     {
         $configPath = __DIR__ . '/../config/laravel-jms-serializer.php';
         $this->mergeConfigFrom($configPath, 'laravel-jms-serializer');
 
         $path = $this->app->storagePath();
         $shouldSerializeNull = $this->app['config']->get('laravel-jms-serializer.serialize_null', true);
-        $serializeType = $this->app['config']->get('laravel-jms-serializer.serialize_type', Config::SERIALIZE_TYPE_JSON);
+        $serializeType = $this->app['config']
+            ->get('laravel-jms-serializer.serialize_type', Contracts\Config::SERIALIZE_TYPE_JSON);
         $debug = $this->app['config']->get('laravel-jms-serializer.debug', false);
 
         $config = Config::fromConfig([
@@ -38,14 +39,19 @@ final class ServiceProvider extends BaseServiceProvider
         $this->app->singleton(ResponseFactory::class, function () use ($config): ResponseFactory {
             return new ResponseFactory((new Factory())->getSerializer($config), $config);
         });
+
+        $this->app->bind(ResponseBuilder::class, ResponseFactory::class);
+
+        $app = $this->app;
+        $this->app->bind('ResponseFactory', static function ($app): ResponseFactory {
+        return $app->get(ResponseFactory::class);
+    });
     }
 
     /**
-     * Bootstrap the application events.
-     *
-     * @return void
+     * @description Bootstrap the application events.
      */
-    public function boot()
+    public function boot(): void
     {
         AnnotationRegistry::registerLoader('class_exists');
 
@@ -54,7 +60,7 @@ final class ServiceProvider extends BaseServiceProvider
     }
 
     /**
-     * Get the config path
+     * @description Get the config path
      *
      * @return string
      */

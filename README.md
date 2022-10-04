@@ -34,7 +34,7 @@ For example, to use the JMS serializer in a controller, add the ResponseFactory 
     <?php 
     namespace App\Http\Controller;
 
-    use Dropelikeit\LaravelJmsSerializer\ResponseFactory;
+    use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;
     use Symfony\Component\HttpFoundation\JsonResponse;
 
     class ExampleController extends Controller 
@@ -87,7 +87,7 @@ To learn more about JMS context, read the JMS Serializer documentation: http://j
     <?php 
     namespace App\Http\Controller;
 
-    use Dropelikeit\LaravelJmsSerializer\ResponseFactory;
+    use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;
     use Symfony\Component\HttpFoundation\JsonResponse;
     use JMS\Serializer\SerializationContext;
 
@@ -123,7 +123,7 @@ You do not always want to hand over a status code of 200 to the frontend. You ca
     <?php 
     namespace App\Http\Controller;
 
-    use Dropelikeit\LaravelJmsSerializer\ResponseFactory;
+    use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;
     use Symfony\Component\HttpFoundation\JsonResponse;
 
     class ExampleController extends Controller 

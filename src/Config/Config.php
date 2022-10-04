@@ -3,41 +3,45 @@ declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer\Config;
 
+use function array_diff;
+use function array_keys;
+use Dropelikeit\LaravelJmsSerializer\Contracts\Config as ResponseBuilderConfig;
+
 use Dropelikeit\LaravelJmsSerializer\Exception\MissingRequiredItems;
 use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
+use function implode;
+use function in_array;
+use function sprintf;
+use Webmozart\Assert\Assert;
 
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
  */
-final class Config implements ConfigInterface
+final class Config implements ResponseBuilderConfig
 {
-    public const SERIALIZE_TYPE_JSON = 'json';
-    public const SERIALIZE_TYPE_XML = 'xml';
-    private const CACHE_DIR = '/serializer/';
+    /**
+     * @psalm-var non-empty-string
+     */
+    private string $cacheDir;
+
+    private bool $shouldSerializeNull;
 
     /**
-     * @var string
+     * @var string 'json'|'xml'
      */
-    private $cacheDir;
+    private string $serializeType;
+
+    private bool $debug;
 
     /**
-     * @var bool
+     * @psalm-param ResponseBuilderConfig::SERIALIZE_TYPE_* $serializeType
      */
-    private $shouldSerializeNull;
-
-    /**
-     * @var string
-     */
-    private $serializeType;
-
-    /**
-     * @var bool
-     */
-    private $debug;
-
     private function __construct(string $cacheDir, bool $shouldSerializeNull, string $serializeType, bool $debug)
     {
-        $this->cacheDir = sprintf('%s%s', $cacheDir, self::CACHE_DIR);
+        $cacheDir = sprintf('%s%s', $cacheDir, self::CACHE_DIR);
+        Assert::stringNotEmpty($cacheDir);
+
+        $this->cacheDir = $cacheDir;
         $this->shouldSerializeNull = $shouldSerializeNull;
         $this->serializeType = $serializeType;
         $this->debug = $debug;
@@ -77,6 +81,9 @@ final class Config implements ConfigInterface
         );
     }
 
+    /**
+     * @psalm-return non-empty-string
+     */
     public function getCacheDir(): string
     {
         return $this->cacheDir;
@@ -87,6 +94,9 @@ final class Config implements ConfigInterface
         return $this->shouldSerializeNull;
     }
 
+    /**
+     * @return string 'json'|'xml'
+     */
     public function getSerializeType(): string
     {
         return $this->serializeType;

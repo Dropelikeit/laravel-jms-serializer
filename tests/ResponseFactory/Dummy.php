@@ -13,20 +13,37 @@ final class Dummy
 {
     /**
      * @Serializer\Type("integer")
-     * @var int
      */
-    private $amount = 12;
+    private int $amount = 12;
 
     /**
      * @Serializer\Type("string")
      * @var string
      */
-    private $text = 'Hello World!';
+    private string $text = 'Hello World!';
 
     /**
      * @Serializer\Type("array<Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory\Response\Item>")
      * @var array<int, Item>|null
      * @psalm-param list<Item>
      */
-    public $items;
+    public ?array $items = null;
+
+    public function getAmount(): int
+    {
+        return $this->amount;
+    }
+
+    public function getText(): string
+    {
+        return $this->text;
+    }
+
+    /**
+     * @return array<int, Item>|null
+     */
+    public function getItems(): ?array
+    {
+        return $this->items;
+    }
 }

@@ -1,7 +1,7 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method Dropelikeit\\\\LaravelJmsSerializer\\\\Tests\\\\ResponseFactory\\\\Response\\:\\:create\\(\\) return type has no value type specified in iterable type Dropelikeit\\\\LaravelJmsSerializer\\\\Tests\\\\ResponseFactory\\\\Response\\.$#"
-			count: 1
-			path: tests/ResponseFactory/Response.php
+			message: "#^Cannot access offset 'config' on Illuminate\\\\Contracts\\\\Foundation\\\\Application\\.$#"
+			count: 3
+			path: src/ServiceProvider.php
 
