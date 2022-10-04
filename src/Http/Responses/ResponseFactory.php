@@ -4,16 +4,15 @@ declare(strict_types=1);
 namespace Dropelikeit\LaravelJmsSerializer\Http\Responses;
 
 use ArrayIterator;
-use Dropelikeit\LaravelJmsSerializer\Config\Config;
 use Dropelikeit\LaravelJmsSerializer\Contracts;
 use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
 use Illuminate\Http\Response as LaravelResponse;
+use function in_array;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
-use function in_array;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>

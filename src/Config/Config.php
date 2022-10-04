@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer\Config;
 
-use Dropelikeit\LaravelJmsSerializer\Contracts\Config as ResponseBuilderConfig;
-use Dropelikeit\LaravelJmsSerializer\Exception\MissingRequiredItems;
-use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
-
-use Webmozart\Assert\Assert;
-use function sprintf;
 use function array_diff;
 use function array_keys;
+use Dropelikeit\LaravelJmsSerializer\Contracts\Config as ResponseBuilderConfig;
+
+use Dropelikeit\LaravelJmsSerializer\Exception\MissingRequiredItems;
+use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
 use function implode;
 use function in_array;
+use function sprintf;
+use Webmozart\Assert\Assert;
 
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
