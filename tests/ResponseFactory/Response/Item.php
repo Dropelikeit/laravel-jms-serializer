@@ -14,11 +14,27 @@ final class Item
      * @Serializer\Type("string")
      * @var string
      */
-    private $key = 'magic_number';
+    private string $key = 'magic_number';
 
     /**
      * @Serializer\Type("integer")
      * @var int
      */
-    private $value = 12;
+    private int $value = 12;
+
+    /**
+     * @return string
+     */
+    public function getKey(): string
+    {
+        return $this->key;
+    }
+
+    /**
+     * @return int
+     */
+    public function getValue(): int
+    {
+        return $this->value;
+    }
 }
