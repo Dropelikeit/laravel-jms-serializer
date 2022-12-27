@@ -7,13 +7,13 @@ use ArrayIterator;
 use Dropelikeit\LaravelJmsSerializer\Contracts;
 use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
 use Illuminate\Http\Response as LaravelResponse;
-use Webmozart\Assert\Assert;
 use function in_array;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 use Symfony\Component\HttpFoundation\Response;
+
+use Webmozart\Assert\Assert;
 
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
