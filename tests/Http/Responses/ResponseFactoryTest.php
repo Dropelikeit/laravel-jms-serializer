@@ -223,7 +223,7 @@ final class ResponseFactoryTest extends TestCase
     }
 
     /**
-     * @param string $changeSerializeTypeTo
+     * @psalm-param Contracts\Config::SERIALIZE_TYPE_* $changeSerializeTypeTo
      * @param string $expectedResult
      *
      * @test
@@ -305,6 +305,7 @@ final class ResponseFactoryTest extends TestCase
 
         $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
         $responseFactory->withContext(SerializationContext::create()->setSerializeNull(true));
+        /** @phpstan-ignore-next-line */
         $responseFactory->withSerializeType('array');
     }
 }
