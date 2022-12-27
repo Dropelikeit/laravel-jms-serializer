@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer\Tests\Http\Responses;
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
 use Dropelikeit\LaravelJmsSerializer\Contracts;
 use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
@@ -28,8 +27,6 @@ final class ResponseFactoryTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        AnnotationRegistry::registerLoader('class_exists');
 
         $this->config = $this
             ->getMockBuilder(Contracts\Config::class)

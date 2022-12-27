@@ -15,8 +15,8 @@
     "illuminate/support": "^8.0|^9.0|^10.0",
     "illuminate/contracts": "^8.0|^9.0|^10.0",
     "jms/serializer": "^3.18",
-    "doctrine/cache": "^1.10",
-    "php": "^7.4|^8.0|^8.1"
+    "php": "^7.4|^8.0|^8.1",
+    "symfony/cache": "^6.2"
   },
   "autoload": {
     "psr-4": {
@@ -51,7 +51,7 @@
     "cs-fix": "php-cs-fixer --using-cache=no fix",
     "test": "phpunit",
     "test-coverage": "phpunit --coverage-clover build/logs/clover.xml",
-    "analyze": "phpstan analyze --no-progress --memory-limit=-1",
+    "analyze": "phpstan analyze --no-progress --memory-limit=-1 --xdebug",
     "update-baseline": "phpstan analyze --generate-baseline --memory-limit=-1",
     "check": [
       "@cs-check",
