@@ -7,6 +7,7 @@ use ArrayIterator;
 use Dropelikeit\LaravelJmsSerializer\Contracts;
 use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
 use Illuminate\Http\Response as LaravelResponse;
+use Webmozart\Assert\Assert;
 use function in_array;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
@@ -17,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
  */
-final class ResponseFactory
+final class ResponseFactory implements Contracts\ResponseBuilder
 {
     /**
      * @var SerializerInterface
@@ -49,7 +50,7 @@ final class ResponseFactory
         $this->config = $config;
         $this->serializer = $serializer;
         $this->serializeType = $config->getSerializeType();
-        $this->status = 200;
+        $this->status = Response::HTTP_OK;
         $this->context = null;
     }
 
@@ -91,12 +92,9 @@ final class ResponseFactory
             $this->context,
             $initialType
         );
+        Assert::stringNotEmpty($content);
 
-        if ($this->serializeType === Contracts\Config::SERIALIZE_TYPE_XML) {
-            return new LaravelResponse($content, $this->status, ['Content-Type' => 'application/xml']);
-        }
-
-        return new JsonResponse($content, $this->status, ['Content-Type' => 'application/json'], true);
+        return $this->getResponse($content);
     }
 
     /**
@@ -107,7 +105,16 @@ final class ResponseFactory
     public function createFromArray(array $jmsResponse): Response
     {
         $content = $this->serializer->serialize($jmsResponse, $this->serializeType, $this->context);
+        Assert::stringNotEmpty($content);
 
+        return $this->getResponse($content);
+    }
+
+    /**
+     * @psalm-param non-empty-string $content
+     */
+    private function getResponse(string $content): Response
+    {
         if ($this->serializeType === Contracts\Config::SERIALIZE_TYPE_XML) {
             return new LaravelResponse($content, $this->status, ['Content-Type' => 'application/xml']);
         }

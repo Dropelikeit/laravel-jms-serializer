@@ -17,9 +17,7 @@ final class Factory
 {
     public function getSerializer(Config $config): SerializerInterface
     {
-        $builder = new SerializerBuilder();
-
-        $builder::create()
+        return SerializerBuilder::create()
             ->setPropertyNamingStrategy(
                 new SerializedNameAnnotationStrategy(
                     new IdenticalPropertyNamingStrategy()
@@ -33,7 +31,5 @@ final class Factory
                     ;
             })
         ->setCacheDir($config->getCacheDir())->setDebug($config->debug())->build();
-
-        return $builder->build();
     }
 }
