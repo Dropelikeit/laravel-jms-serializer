@@ -9,6 +9,7 @@ use Webmozart\Assert\Assert;
 
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
+ * @extends ArrayIterator<int, Item>
  */
 final class Response extends ArrayIterator
 {
