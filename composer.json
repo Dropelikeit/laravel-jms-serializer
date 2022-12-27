@@ -1,6 +1,6 @@
 {
   "name": "dropelikeit/laravel-jms-serializer",
-  "description": "Intregation JMS Serializer in Laravel / Lumen",
+  "description": "Integration JMS Serializer in Laravel / Lumen",
   "keywords": ["Lumen", "Laravel", "JMS Serializer", "JMS"],
   "minimum-stability": "stable",
   "license": "MIT",
