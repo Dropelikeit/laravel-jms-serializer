@@ -19,4 +19,11 @@ interface Config
     public function getSerializeType(): string;
 
     public function debug(): bool;
+
+    public function shouldAddDefaultHeaders(): bool;
+
+    /**
+     * @psalm-return list<CustomHandlerConfiguration|class-string>
+     */
+    public function getCustomHandlers(): array;
 }

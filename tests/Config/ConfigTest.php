@@ -17,7 +17,7 @@ final class ConfigTest extends TestCase
      * @test
      * @dataProvider dataProviderCanCreateConfig
      * @param array<string, bool|string> $config
-     * @psalm-param array{serialize_null: bool, cache_dir: string, serialize_type: string, debug: false} $config
+     * @psalm-param array{serialize_null: bool, cache_dir: string, serialize_type: string, debug: false, add_default_handlers: true, custom_handlers: array} $config
      * @param bool $throwMissingException
      * @param bool $throwWrongTypeException
      */
@@ -37,6 +37,8 @@ final class ConfigTest extends TestCase
         self::assertEquals(sprintf('%s%s', $config['cache_dir'], '/serializer/'), $configTest->getCacheDir());
         self::assertEquals($config['serialize_type'], $configTest->getSerializeType());
         self::assertEquals($config['debug'], $configTest->debug());
+        self::assertEquals(true, $configTest->shouldAddDefaultHeaders());
+        self::assertCount(0, $configTest->getCustomHandlers());
     }
 
     /**
@@ -51,6 +53,8 @@ final class ConfigTest extends TestCase
                     'cache_dir' => '/storage',
                     'serialize_type' => 'json',
                     'debug' => false,
+                    'add_default_handlers' => true,
+                    'custom_handlers' => [],
                 ],
                 false,
                 false,
@@ -60,6 +64,8 @@ final class ConfigTest extends TestCase
                     'serialize_null' => false,
                     'cache_dir' => '/storage',
                     'serialize_type' => 'json',
+                    'add_default_handlers' => true,
+                    'custom_handlers' => [],
                 ],
                 true,
                 false,
@@ -70,6 +76,8 @@ final class ConfigTest extends TestCase
                     'cache_dir' => '/storage',
                     'serialize_type' => 'yaml',
                     'debug' => false,
+                    'add_default_handlers' => true,
+                    'custom_handlers' => [],
                 ],
                 false,
                 true,

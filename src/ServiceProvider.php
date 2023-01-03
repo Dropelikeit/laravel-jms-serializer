@@ -36,12 +36,19 @@ final class ServiceProvider extends BaseServiceProvider
             ->get('laravel-jms-serializer.serialize_type', Contracts\Config::SERIALIZE_TYPE_JSON);
         Assert::stringNotEmpty($serializeType);
         $debug = (bool) $configRepository->get('laravel-jms-serializer.debug', false);
+        $addDefaultHandlers = (bool) $configRepository->get(
+            'laravel-jms-serializer.add_default_handlers',
+            true
+        );
+        $customHandlers = (array) $configRepository->get('laravel-jms-serializer.custom_handlers', []);
 
         $config = Config::fromConfig([
             'serialize_null' => $shouldSerializeNull,
             'cache_dir' => $path,
             'serialize_type' => $serializeType,
             'debug' => $debug,
+            'add_default_handlers' => $addDefaultHandlers,
+            'custom_handlers' => $customHandlers,
         ]);
 
         $this->app->singleton(ResponseFactory::class, static function () use ($config): ResponseFactory {
