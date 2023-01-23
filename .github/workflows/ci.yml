@@ -71,6 +71,8 @@ jobs:
         run: "composer install --no-interaction --prefer-dist"
 
       - name: "Run PHPUnit Tests"
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           composer test
           composer global require php-coveralls/php-coveralls
@@ -110,6 +112,8 @@ jobs:
         run: "composer install --no-interaction --prefer-dist"
 
       - name: "Run PHPUnit Tests"
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           composer test
           composer global require php-coveralls/php-coveralls
