@@ -30,7 +30,12 @@ jobs:
             run: "composer install --no-interaction --prefer-dist"
 
           - name: "Run PHPUnit Tests"
-            run: "composer test"
+            env:
+              COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            run: |
+              composer test
+              composer global require php-coveralls/php-coveralls
+              php-coveralls --coverage_clover=build/output/tests/coverage.xml --json_path=build/output/tests/coveralls-upload.json -v
 
           - name: "Run PHP CS Check"
             run: "composer cs-check"
@@ -66,7 +71,12 @@ jobs:
         run: "composer install --no-interaction --prefer-dist"
 
       - name: "Run PHPUnit Tests"
-        run: "composer test"
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          composer test
+          composer global require php-coveralls/php-coveralls
+          php-coveralls --coverage_clover=build/output/tests/coverage.xml --json_path=build/output/tests/coveralls-upload.json -v
 
       - name: "Run PHP CS Check"
         run: "composer cs-check"
@@ -102,7 +112,12 @@ jobs:
         run: "composer install --no-interaction --prefer-dist"
 
       - name: "Run PHPUnit Tests"
-        run: "composer test"
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          composer test
+          composer global require php-coveralls/php-coveralls
+          php-coveralls --coverage_clover=build/output/tests/coverage.xml --json_path=build/output/tests/coveralls-upload.json -v
 
       - name: "Run PHP CS Check"
         run: "PHP_CS_FIXER_IGNORE_ENV=1 composer cs-check"
