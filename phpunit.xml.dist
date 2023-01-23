@@ -15,5 +15,7 @@
   <testsuite name="Laravel-JMS-Serializer">
     <directory suffix="Test.php">tests</directory>
   </testsuite>
-  <logging/>
+  <logging>
+    <log type="coverage-clover" target="build/logs/clover.xml"/>
+  </logging>
 </phpunit>
