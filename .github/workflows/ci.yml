@@ -34,6 +34,7 @@ jobs:
               COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             run: |
               composer test
+              chmod 777 build/logs/coverage.xml
               composer global require php-coveralls/php-coveralls
               php-coveralls --coverage_clover=build/logs/coverage.xml -v
 
