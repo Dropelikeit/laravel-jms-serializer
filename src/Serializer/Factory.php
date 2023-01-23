@@ -31,11 +31,14 @@ final class Factory
                     new IdenticalPropertyNamingStrategy()
                 )
             )
-            ->addDefaultHandlers()
             ->addDefaultListeners()
             ->setSerializationContextFactory(static function () use ($config): SerializationContext {
                 return SerializationContext::create()->setSerializeNull($config->shouldSerializeNull());
             });
+
+        if ($config->shouldAddDefaultHeaders()) {
+            $builder->addDefaultHandlers();
+        }
 
         $customHandlers = $config->getCustomHandlers();
         if ($customHandlers !== []) {

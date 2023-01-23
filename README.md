@@ -37,17 +37,9 @@ For example, to use the JMS serializer in a controller, add the ResponseFactory 
     use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;
     use Symfony\Component\HttpFoundation\JsonResponse;
 
-    class ExampleController extends Controller 
+    final class ExampleController extends Controller 
     {
-        /**
-        * @var ResponseFactory  
-        */
-        private $responseFactory;
-
-        public function __construct(ResponseFactory $responseFactory) 
-        {
-            $this->responseFactory = $responseFactory;
-        }
+        public function __construct(private ResponseFactory $responseFactory) {}
 
         public function myAction(): JsonResponse
         {
@@ -63,90 +55,9 @@ Publish the Serializer Config with the command
     php artisan vendor:publish
 ```
 
-After that you will see a config file in your config folder named "laravel-jms-serializer.php" with the following content:
+After that you will see a config file in your config folder named "laravel-jms-serializer.php".
 
+# Documentation
 
-```php
-<?php 
-return [ 
-    'serialize_null' => true,
-    'serialize_type' => Config\Config::SERIALIZE_TYPE_JSON,
-    'debug' => false,
-];
-```
-
-As you can see zero values are serialized by default.
-
-## Using Custom-Context
-
-To use your own JMS contexts, use the "withContext" method
-
-To learn more about JMS context, read the JMS Serializer documentation: http://jmsyst.com/libs/serializer/master
-
-```php
-    <?php 
-    namespace App\Http\Controller;
-
-    use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;
-    use Symfony\Component\HttpFoundation\JsonResponse;
-    use JMS\Serializer\SerializationContext;
-
-    class ExampleController extends Controller 
-    {
-        /**
-        * @var ResponseFactory  
-        */
-        private $responseFactory;
-
-        public function __construct(ResponseFactory $responseFactory) 
-        {
-            $this->responseFactory = $responseFactory;
-        }
-
-        public function myAction(): JsonResponse
-        {
-            $myDataObjectWithSerializerAnnotations = new Object('some data');
-
-            $context = SerializationContext::create()->setSerializeNull(true);
-
-            $this->responseFactory->withContext($context);
-            return $this->responseFactory->create($myDataObjectWithSerializerAnnotations);
-        }
-    }
-```
-
-## Using Status-Code
-
-You do not always want to hand over a status code of 200 to the frontend. You can achieve this with the following code. Use the method "withStatusCode" for this
-
-```php
-    <?php 
-    namespace App\Http\Controller;
-
-    use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;
-    use Symfony\Component\HttpFoundation\JsonResponse;
-
-    class ExampleController extends Controller 
-    {
-        /**
-        * @var ResponseFactory  
-        */
-        private $responseFactory;
-
-        public function __construct(ResponseFactory $responseFactory) 
-        {
-            $this->responseFactory = $responseFactory;
-        }
-
-        public function myAction(): JsonResponse
-        {
-            $myDataObjectWithSerializerAnnotations = new Object('some data');
-
-            $this->responseFactory->withStatusCode(400);
-            return $this->responseFactory->create($myDataObjectWithSerializerAnnotations);
-        }
-    }
-```
-
-
-
+* [Configuration](docs/configuration.md)
+* [ResponseFactory](docs/response-factory.md)
