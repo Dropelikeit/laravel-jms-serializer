@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/Dropelikeit/laravel-jms-serializer.svg?branch=master)](https://travis-ci.org/Dropelikeit/PriceCalculator)
-[![Coverage Status](https://coveralls.io/repos/github/Dropelikeit/laravel-jms-serializer/badge.svg)](https://coveralls.io/github/Dropelikeit/laravel-jms-serializer)
+[![Coverage Status](https://coveralls.io/repos/github/Dropelikeit/laravel-jms-serializer/badge.svg?branch=master)](https://coveralls.io/github/Dropelikeit/laravel-jms-serializer?branch=master)
 [![Monthly Downloads](https://poser.pugx.org/dropelikeit/laravel-jms-serializer/d/monthly)](https://packagist.org/packages/dropelikeit/laravel-jms-serializer)
 [![Daily Downloads](https://poser.pugx.org/dropelikeit/laravel-jms-serializer/d/daily)](https://packagist.org/packages/dropelikeit/laravel-jms-serializer)
 [![Total Downloads](https://poser.pugx.org/dropelikeit/laravel-jms-serializer/downloads)](https://packagist.org/packages/dropelikeit/laravel-jms-serializer)
