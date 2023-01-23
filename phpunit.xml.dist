@@ -9,13 +9,11 @@
       <directory>./vendor</directory>
     </exclude>
     <report>
+      <clover outputFile="build/output/tests/coverage.xml"/>
       <text outputFile="php://stdout" showUncoveredFiles="false"/>
     </report>
   </coverage>
   <testsuite name="Laravel-JMS-Serializer">
     <directory suffix="Test.php">tests</directory>
   </testsuite>
-  <logging>
-    <log type="coverage-clover" target="build/logs/clover.xml"/>
-  </logging>
 </phpunit>
