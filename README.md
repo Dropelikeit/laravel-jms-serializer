@@ -1,3 +1,4 @@
+![Gitworkflow](https://github.com/Dropelikeit/laravel-jms-serializer/actions/workflows/ci.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/Dropelikeit/laravel-jms-serializer/badge.svg?branch=master)](https://coveralls.io/github/Dropelikeit/laravel-jms-serializer?branch=master)
 [![Monthly Downloads](https://poser.pugx.org/dropelikeit/laravel-jms-serializer/d/monthly)](https://packagist.org/packages/dropelikeit/laravel-jms-serializer)
 [![Daily Downloads](https://poser.pugx.org/dropelikeit/laravel-jms-serializer/d/daily)](https://packagist.org/packages/dropelikeit/laravel-jms-serializer)
