@@ -57,7 +57,10 @@ Publish the Serializer Config with the command
 
 After that you will see a config file in your config folder named "laravel-jms-serializer.php".
 
-# Documentation
+## Upgrade
+If you are upgrading this package from a version earlier than v4.0, see [this upgrade file](UPGRADE-4.0.md).
+
+## Documentation
 
 * [Configuration](docs/configuration.md)
 * [ResponseFactory](docs/response-factory.md)
