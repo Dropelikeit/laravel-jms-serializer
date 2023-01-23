@@ -56,7 +56,8 @@ class FactoryTest extends TestCase
      */
     public function canCreateSerializerWithValidCustomHandlers(): void
     {
-        $serializer = (new Factory())->getSerializer(Config::fromConfig([
+        /** @var array{serialize_null: bool, cache_dir: string, serialize_type: string, debug: bool, add_default_handlers: bool, custom_handlers: array<int, CustomHandlerConfiguration>} $config */
+        $config = [
             'serialize_null' => true,
             'serialize_type' => 'json',
             'cache_dir' => 'tmp',
@@ -65,7 +66,9 @@ class FactoryTest extends TestCase
             'custom_handlers' => [
                 CustomHandler::class,
             ],
-        ]));
+        ];
+
+        $serializer = (new Factory())->getSerializer(Config::fromConfig($config));
 
         $this->assertInstanceOf(Serializer::class, $serializer);
     }
@@ -121,6 +124,7 @@ class FactoryTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
+        /** @phpstan-ignore-next-line  */
         (new Factory())->getSerializer(Config::fromConfig([
             'serialize_null' => true,
             'serialize_type' => 'json',

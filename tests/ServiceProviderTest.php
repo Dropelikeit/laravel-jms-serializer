@@ -33,8 +33,6 @@ final class ServiceProviderTest extends TestCase
         $this->application = $this->createMock(Application::class);
         $this->configRepository = $this->createMock(Repository::class);
 
-        $this->container = $this->createMock(\Illuminate\Contracts\Container\Container::class);
-
         $this->oldContainer = Container::getInstance();
         Container::setInstance($this->application);
     }

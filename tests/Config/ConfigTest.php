@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Dropelikeit\LaravelJmsSerializer\Tests\Config;
 
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
+use Dropelikeit\LaravelJmsSerializer\Contracts\CustomHandlerConfiguration;
 use Dropelikeit\LaravelJmsSerializer\Exception\MissingRequiredItems;
 use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
 use PHPUnit\Framework\TestCase;
@@ -14,10 +15,10 @@ use PHPUnit\Framework\TestCase;
 final class ConfigTest extends TestCase
 {
     /**
+     *
      * @test
      * @dataProvider dataProviderCanCreateConfig
-     * @param array<string, bool|string> $config
-     * @psalm-param array{serialize_null: bool, cache_dir: string, serialize_type: string, debug: false, add_default_handlers: true, custom_handlers: array} $config
+     * @param array{serialize_null: bool, cache_dir: string, serialize_type: string, debug: bool, add_default_handlers: bool, custom_handlers: array<int, CustomHandlerConfiguration>} $config
      * @param bool $throwMissingException
      * @param bool $throwWrongTypeException
      */

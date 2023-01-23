@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Dropelikeit\LaravelJmsSerializer;
 
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
+use Dropelikeit\LaravelJmsSerializer\Contracts\CustomHandlerConfiguration;
 use Dropelikeit\LaravelJmsSerializer\Contracts\ResponseBuilder;
 use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;
 use Dropelikeit\LaravelJmsSerializer\Serializer\Factory;
@@ -40,6 +41,7 @@ final class ServiceProvider extends BaseServiceProvider
             'laravel-jms-serializer.add_default_handlers',
             true
         );
+        /** @var array<int, CustomHandlerConfiguration> $customHandlers */
         $customHandlers = (array) $configRepository->get('laravel-jms-serializer.custom_handlers', []);
 
         $config = Config::fromConfig([

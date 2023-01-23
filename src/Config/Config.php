@@ -6,6 +6,7 @@ namespace Dropelikeit\LaravelJmsSerializer\Config;
 use function array_diff;
 use function array_keys;
 use Dropelikeit\LaravelJmsSerializer\Contracts\Config as ResponseBuilderConfig;
+use Dropelikeit\LaravelJmsSerializer\Contracts\CustomHandlerConfiguration;
 
 use Dropelikeit\LaravelJmsSerializer\Exception\MissingRequiredItems;
 use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
@@ -24,9 +25,13 @@ final class Config implements ResponseBuilderConfig
      */
     private string $cacheDir;
 
+    /**
+     * @var array<int, CustomHandlerConfiguration>
+     */
     private array $customHandlers;
 
     /**
+     * @param array<int, CustomHandlerConfiguration> $customHandlers
      * @psalm-param ResponseBuilderConfig::SERIALIZE_TYPE_* $serializeType
      */
     private function __construct(
@@ -48,8 +53,7 @@ final class Config implements ResponseBuilderConfig
     }
 
     /**
-     * @param array<string, bool|string> $config
-     * @psalm-param array{serialize_null: bool, cache_dir: string, serialize_type: string, debug: bool, add_default_handlers: bool, custom_handlers: array} $config
+     * @param array{serialize_null: bool, cache_dir: string, serialize_type: string, debug: bool, add_default_handlers: bool, custom_handlers: array<int, CustomHandlerConfiguration>} $config
      *
      * @return self
      */
@@ -116,6 +120,9 @@ final class Config implements ResponseBuilderConfig
         return $this->addDefaultHandlers;
     }
 
+    /**
+     * @return array<int, CustomHandlerConfiguration>
+     */
     public function getCustomHandlers(): array
     {
         return $this->customHandlers;
