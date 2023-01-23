@@ -6,6 +6,7 @@ namespace Dropelikeit\LaravelJmsSerializer\Config;
 use function array_diff;
 use function array_keys;
 use Dropelikeit\LaravelJmsSerializer\Contracts\Config as ResponseBuilderConfig;
+use Dropelikeit\LaravelJmsSerializer\Contracts\CustomHandlerConfiguration;
 
 use Dropelikeit\LaravelJmsSerializer\Exception\MissingRequiredItems;
 use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
@@ -24,32 +25,35 @@ final class Config implements ResponseBuilderConfig
      */
     private string $cacheDir;
 
-    private bool $shouldSerializeNull;
-
     /**
-     * @var string 'json'|'xml'
+     * @var array<int, CustomHandlerConfiguration>
      */
-    private string $serializeType;
-
-    private bool $debug;
+    private array $customHandlers;
 
     /**
+     * @param array<int, CustomHandlerConfiguration> $customHandlers
      * @psalm-param ResponseBuilderConfig::SERIALIZE_TYPE_* $serializeType
      */
-    private function __construct(string $cacheDir, bool $shouldSerializeNull, string $serializeType, bool $debug)
-    {
+    private function __construct(
+        string $cacheDir,
+        array $customHandlers,
+        private bool $shouldSerializeNull,
+        /**
+         * @var string 'json'|'xml'
+         */
+        private string $serializeType,
+        private bool $debug,
+        private bool $addDefaultHandlers,
+    ) {
         $cacheDir = sprintf('%s%s', $cacheDir, self::CACHE_DIR);
         Assert::stringNotEmpty($cacheDir);
 
         $this->cacheDir = $cacheDir;
-        $this->shouldSerializeNull = $shouldSerializeNull;
-        $this->serializeType = $serializeType;
-        $this->debug = $debug;
+        $this->customHandlers = $customHandlers;
     }
 
     /**
-     * @param array<string, bool|string> $config
-     * @psalm-param array{serialize_null: bool, cache_dir: string, serialize_type: string, debug: bool} $config
+     * @param array{serialize_null: bool, cache_dir: string, serialize_type: string, debug: bool, add_default_handlers: bool, custom_handlers: array<int, CustomHandlerConfiguration>} $config
      *
      * @return self
      */
@@ -60,6 +64,8 @@ final class Config implements ResponseBuilderConfig
             'cache_dir',
             'serialize_type',
             'debug',
+            'add_default_handlers',
+            'custom_handlers',
         ], array_keys($config));
 
         if (!empty($missing)) {
@@ -74,10 +80,12 @@ final class Config implements ResponseBuilderConfig
         }
 
         return new self(
-            $config['cache_dir'],
-            (bool) $config['serialize_null'],
-            $config['serialize_type'],
-            (bool) $config['debug']
+            cacheDir: $config['cache_dir'],
+            customHandlers: (array) $config['custom_handlers'],
+            shouldSerializeNull: (bool) $config['serialize_null'],
+            serializeType: $config['serialize_type'],
+            debug: (bool) $config['debug'],
+            addDefaultHandlers: (bool) $config['add_default_handlers'],
         );
     }
 
@@ -105,5 +113,18 @@ final class Config implements ResponseBuilderConfig
     public function debug(): bool
     {
         return $this->debug;
+    }
+
+    public function shouldAddDefaultHeaders(): bool
+    {
+        return $this->addDefaultHandlers;
+    }
+
+    /**
+     * @return array<int, CustomHandlerConfiguration>
+     */
+    public function getCustomHandlers(): array
+    {
+        return $this->customHandlers;
     }
 }

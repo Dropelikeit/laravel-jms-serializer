@@ -11,23 +11,19 @@ use function in_array;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 use Symfony\Component\HttpFoundation\Response;
+
+use Webmozart\Assert\Assert;
 
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
  */
-final class ResponseFactory
+final class ResponseFactory implements Contracts\ResponseBuilder
 {
-    /**
-     * @var SerializerInterface
-     */
-    private SerializerInterface $serializer;
-
-    /**
-     * @var Contracts\Config
-     */
-    private Contracts\Config $config;
+    private const HEADER_NAME_CONTENT_TYPE = 'Content-Type';
+    private const HEADER_VALUE_APPLICATION_JSON = 'application/json';
+    private const HEADER_VALUE_APPLICATION_XML = 'application/xml';
+    private const SERIALIZER_INITIAL_TYPE_ARRAY = 'array';
 
     /**
      * @var positive-int
@@ -44,12 +40,10 @@ final class ResponseFactory
      */
     private string $serializeType;
 
-    public function __construct(SerializerInterface $serializer, Contracts\Config $config)
+    public function __construct(private SerializerInterface $serializer, private Contracts\Config $config)
     {
-        $this->config = $config;
-        $this->serializer = $serializer;
         $this->serializeType = $config->getSerializeType();
-        $this->status = 200;
+        $this->status = Response::HTTP_OK;
         $this->context = null;
     }
 
@@ -91,12 +85,9 @@ final class ResponseFactory
             $this->context,
             $initialType
         );
+        Assert::stringNotEmpty($content);
 
-        if ($this->serializeType === Contracts\Config::SERIALIZE_TYPE_XML) {
-            return new LaravelResponse($content, $this->status, ['Content-Type' => 'application/xml']);
-        }
-
-        return new JsonResponse($content, $this->status, ['Content-Type' => 'application/json'], true);
+        return $this->getResponse($content);
     }
 
     /**
@@ -107,18 +98,36 @@ final class ResponseFactory
     public function createFromArray(array $jmsResponse): Response
     {
         $content = $this->serializer->serialize($jmsResponse, $this->serializeType, $this->context);
+        Assert::stringNotEmpty($content);
 
+        return $this->getResponse($content);
+    }
+
+    /**
+     * @psalm-param non-empty-string $content
+     */
+    private function getResponse(string $content): Response
+    {
         if ($this->serializeType === Contracts\Config::SERIALIZE_TYPE_XML) {
-            return new LaravelResponse($content, $this->status, ['Content-Type' => 'application/xml']);
+            return new LaravelResponse(
+                content: $content,
+                status: $this->status,
+                headers: [self::HEADER_NAME_CONTENT_TYPE => self::HEADER_VALUE_APPLICATION_XML]
+            );
         }
 
-        return new JsonResponse($content, $this->status, ['Content-Type' => 'application/json'], true);
+        return new JsonResponse(
+            data: $content,
+            status: $this->status,
+            headers: [self::HEADER_NAME_CONTENT_TYPE => self::HEADER_VALUE_APPLICATION_JSON],
+            json: true
+        );
     }
 
     private function getInitialType(object $jmsResponse): ?string
     {
         if ($jmsResponse instanceof ArrayIterator) {
-            return 'array';
+            return self::SERIALIZER_INITIAL_TYPE_ARRAY;
         }
 
         return null;

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer\Exception;
 
-use Dropelikeit\LaravelJmsSerializer\Config\Config;
+use Dropelikeit\LaravelJmsSerializer\Contracts\Config;
 use InvalidArgumentException;
 
 /**

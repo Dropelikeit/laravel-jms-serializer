@@ -5,6 +5,8 @@ namespace Dropelikeit\LaravelJmsSerializer;
 
 return [
     'serialize_null' => true,
-    'serialize_type' => Config\Config::SERIALIZE_TYPE_JSON, // Config\Config::SERIALIZE_TYPE_XML
+    'serialize_type' => Contracts\Config::SERIALIZE_TYPE_JSON, // Contracts\Config::SERIALIZE_TYPE_XML
     'debug' => false,
+    'add_default_handlers' => true,
+    'custom_handlers' => [],
 ];

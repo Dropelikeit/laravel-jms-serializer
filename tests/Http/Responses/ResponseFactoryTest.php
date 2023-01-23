@@ -93,7 +93,7 @@ final class ResponseFactoryTest extends TestCase
     /**
      * @test
      */
-    public function canCreateResponseFromArray(): void
+    public function canCreateJsonResponseFromArray(): void
     {
         $this->config
             ->expects(self::once())
@@ -117,6 +117,49 @@ final class ResponseFactoryTest extends TestCase
         self::assertEquals(200, $response->getStatusCode());
         self::assertEquals(
             '{"some_objects":{"person":{"first_name":"Max","last_name":"Mustermann","birthdate":"01.01.1976","birth_place":"Berlin","nationality":"german"}}}',
+            $response->getContent()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function canCreateXmlResponseFromArray(): void
+    {
+        $this->config
+            ->expects(self::once())
+            ->method('getCacheDir')
+            ->willReturn(__DIR__);
+
+        $this->config
+            ->expects(self::once())
+            ->method('debug')
+            ->willReturn(true);
+
+        $this->config
+            ->expects(self::once())
+            ->method('getSerializeType')
+            ->willReturn(Contracts\Config::SERIALIZE_TYPE_XML);
+
+        $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
+
+        $response = $responseFactory->createFromArray(require __DIR__ . '/../../ResponseFactory/dummy_array.php');
+
+        self::assertEquals(200, $response->getStatusCode());
+        self::assertEquals(
+            '<?xml version="1.0" encoding="UTF-8"?>
+<result>
+  <entry>
+    <entry>
+      <entry><![CDATA[Max]]></entry>
+      <entry><![CDATA[Mustermann]]></entry>
+      <entry><![CDATA[01.01.1976]]></entry>
+      <entry><![CDATA[Berlin]]></entry>
+      <entry><![CDATA[german]]></entry>
+    </entry>
+  </entry>
+</result>
+',
             $response->getContent()
         );
     }
@@ -180,7 +223,7 @@ final class ResponseFactoryTest extends TestCase
     }
 
     /**
-     * @param string $changeSerializeTypeTo
+     * @psalm-param Contracts\Config::SERIALIZE_TYPE_* $changeSerializeTypeTo
      * @param string $expectedResult
      *
      * @test
@@ -262,6 +305,7 @@ final class ResponseFactoryTest extends TestCase
 
         $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
         $responseFactory->withContext(SerializationContext::create()->setSerializeNull(true));
+        /** @phpstan-ignore-next-line */
         $responseFactory->withSerializeType('array');
     }
 }

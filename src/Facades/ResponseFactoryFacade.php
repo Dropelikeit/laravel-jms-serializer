@@ -7,8 +7,10 @@ use Illuminate\Support\Facades\Facade;
 
 final class ResponseFactoryFacade extends Facade
 {
+    private const FACADE_ACCESSOR = 'ResponseFactory';
+
     protected static function getFacadeAccessor(): string
     {
-        return 'ResponseFactory';
+        return self::FACADE_ACCESSOR;
     }
 }
