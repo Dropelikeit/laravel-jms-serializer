@@ -21,8 +21,8 @@ You are also welcome to use the Issue Tracker to set bugs, improvements or upgra
 ``` composer require dropelikeit/laravel-jms-serializer ```
 
 ### Support note
-    
-Laravel 5.* is no longer supported with release v2.0.0 and higher.
+- Laravel 6 and 7 are no longer supported with release v4.0.0 and higher.  
+- Laravel 5.* is no longer supported with release v2.0.0 and higher.
 
 ### How to use
 
