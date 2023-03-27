@@ -13,13 +13,15 @@ use Symfony\Component\HttpFoundation\Response;
 interface ResponseBuilder
 {
     /**
-     * @psalm-param positive-int $code
+     * @phpstan-ignore-next-line
+     * @psalm-param Response::HTTP_* $code
      */
     public function withStatusCode(int $code): void;
 
     public function withContext(SerializationContext $context): void;
 
     /**
+     * @param non-empty-string $serializeType
      * @psalm-param Config::SERIALIZE_TYPE_* $serializeType
      */
     public function withSerializeType(string $serializeType): self;

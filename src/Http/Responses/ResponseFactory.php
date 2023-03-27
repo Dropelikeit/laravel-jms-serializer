@@ -26,7 +26,8 @@ final class ResponseFactory implements Contracts\ResponseBuilder
     private const SERIALIZER_INITIAL_TYPE_ARRAY = 'array';
 
     /**
-     * @var positive-int
+     * @phpstan-ignore-next-line
+     * @psalm-var Response::HTTP_*
      */
     private int $status;
 
@@ -48,7 +49,8 @@ final class ResponseFactory implements Contracts\ResponseBuilder
     }
 
     /**
-     * @psalm-param positive-int $code
+     * @phpstan-ignore-next-line
+     * @psalm-param Response::HTTP_* $code
      */
     public function withStatusCode(int $code): void
     {
@@ -60,12 +62,16 @@ final class ResponseFactory implements Contracts\ResponseBuilder
         $this->context = $context;
     }
 
+    /**
+     * @psalm-param Contracts\Config::SERIALIZE_TYPE_* $serializeType
+     */
     public function withSerializeType(string $serializeType): self
     {
         if (!in_array($serializeType, [
             Contracts\Config::SERIALIZE_TYPE_JSON,
             Contracts\Config::SERIALIZE_TYPE_XML
         ], true)) {
+            /** @psalm-suppress NoValue */
             throw SerializeType::fromUnsupportedSerializeType($serializeType);
         }
 

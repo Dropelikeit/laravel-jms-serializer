@@ -5,47 +5,6 @@ on:
     push:
 
 jobs:
-  php8:
-      name: PHP 8
-      runs-on: ubuntu-latest
-      steps:
-          - name: "Checkout"
-            uses: "actions/checkout@v3"
-            with:
-                fetch-depth: 2
-
-          - name: "Install PHP 8"
-            uses: "shivammathur/setup-php@v2"
-            with:
-                php-version: "8"
-
-          - name: "Cache composer packages"
-            uses: "actions/cache@v3"
-            with:
-                path: "~/.composer/cache"
-                key: "php-composer-locked-${{ hashFiles('composer.lock') }}"
-                restore-keys: "php-composer-locked-"
-
-          - name: "Install dependencies with composer"
-            run: "composer install --no-interaction --prefer-dist"
-
-          - name: "Run PHPUnit Tests"
-            env:
-              COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            run: |
-              composer test
-              composer global require php-coveralls/php-coveralls
-              php-coveralls --coverage_clover=build/output/tests/coverage.xml --json_path=build/output/tests/coveralls-upload.json -v
-
-          - name: "Run PHP CS Check"
-            run: "composer cs-check"
-
-          - name: "Run PHPStan"
-            run: "composer analyze"
-
-          - name: "PHP Lint"
-            run: "composer lint"
-
   php81:
     name: PHP 8.1
     runs-on: ubuntu-latest
@@ -83,6 +42,9 @@ jobs:
 
       - name: "Run PHPStan"
         run: "composer analyze"
+
+      - name: "Run Psalm"
+        run: "composer psalm"
 
       - name: "PHP Lint"
         run: "composer lint"
@@ -124,6 +86,9 @@ jobs:
 
       - name: "Run PHPStan"
         run: "composer analyze"
+
+      - name: "Run Psalm"
+        run: "composer psalm"
 
       - name: "PHP Lint"
         run: "composer lint"
