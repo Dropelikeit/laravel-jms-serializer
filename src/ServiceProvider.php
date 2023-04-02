@@ -31,7 +31,7 @@ final class ServiceProvider extends BaseServiceProvider
         /** @var Repository $configRepository */
         $configRepository = $this->app->get('config');
 
-        $cacheDir = $this->app->storagePath('framework/cache');
+        $cacheDir = $this->app->storagePath('framework/cache/data');
         if (!Storage::exists($cacheDir)) {
             Storage::makeDirectory($cacheDir);
         }

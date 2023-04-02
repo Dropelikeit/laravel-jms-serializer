@@ -82,7 +82,7 @@ final class ServiceProviderTest extends TestCase
         $this->application
             ->expects(self::once())
             ->method('storagePath')
-            ->with('framework/cache')
+            ->with('framework/cache/data')
             ->willReturn('my-storage');
 
         Storage::shouldReceive('exists')->once()->with('my-storage')->andReturn(false);
