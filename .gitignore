@@ -24,3 +24,5 @@ Homestead.json
 
 # Composer
 composer.lock
+
+/tmp

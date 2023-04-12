@@ -11,6 +11,7 @@ use Dropelikeit\LaravelJmsSerializer\ServiceProvider;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -81,7 +82,11 @@ final class ServiceProviderTest extends TestCase
         $this->application
             ->expects(self::once())
             ->method('storagePath')
+            ->with('framework/cache/data')
             ->willReturn('my-storage');
+
+        Storage::shouldReceive('exists')->once()->with('my-storage')->andReturn(false);
+        Storage::shouldReceive('makeDirectory')->with('my-storage')->andReturn(true);
 
         $config = Config::fromConfig([
             'serialize_null' => true,

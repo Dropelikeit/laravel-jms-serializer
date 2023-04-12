@@ -9,6 +9,7 @@ use Dropelikeit\LaravelJmsSerializer\Contracts\ResponseBuilder;
 use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;
 use Dropelikeit\LaravelJmsSerializer\Serializer\Factory;
 use Illuminate\Config\Repository;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use function sprintf;
 
@@ -30,7 +31,11 @@ final class ServiceProvider extends BaseServiceProvider
         /** @var Repository $configRepository */
         $configRepository = $this->app->get('config');
 
-        $path = $this->app->storagePath();
+        $cacheDir = $this->app->storagePath('framework/cache/data');
+        if (!Storage::exists($cacheDir)) {
+            Storage::makeDirectory($cacheDir);
+        }
+
         $shouldSerializeNull = (bool) $configRepository
             ->get('laravel-jms-serializer.serialize_null', true);
         $serializeType = $configRepository
@@ -46,7 +51,7 @@ final class ServiceProvider extends BaseServiceProvider
 
         $config = Config::fromConfig([
             'serialize_null' => $shouldSerializeNull,
-            'cache_dir' => $path,
+            'cache_dir' => $cacheDir,
             'serialize_type' => $serializeType,
             'debug' => $debug,
             'add_default_handlers' => $addDefaultHandlers,
@@ -81,7 +86,7 @@ final class ServiceProvider extends BaseServiceProvider
      *
      * @return string
      */
-    protected function getConfigPath(): string
+    private function getConfigPath(): string
     {
         return config_path('laravel-jms-serializer.php');
     }
