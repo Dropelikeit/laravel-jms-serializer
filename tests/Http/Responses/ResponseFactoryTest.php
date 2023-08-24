@@ -262,7 +262,7 @@ final class ResponseFactoryTest extends TestCase
      * @return array<string, array<int, string>>
      * @psalm-return array{with_json: array<int, string>, 'with_xml': array<int, string>}
      */
-    public function dataProviderCanSerializeWithSerializeType(): array
+    public static function dataProviderCanSerializeWithSerializeType(): array
     {
         return [
             'with_json' => [

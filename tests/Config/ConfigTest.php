@@ -45,7 +45,7 @@ final class ConfigTest extends TestCase
     /**
      * @return array<string, array<int, mixed>>
      */
-    public function dataProviderCanCreateConfig(): array
+    public static function dataProviderCanCreateConfig(): array
     {
         return [
             'success' => [
