@@ -10,10 +10,10 @@ use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;
 use Dropelikeit\LaravelJmsSerializer\Serializer\Factory;
 use Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory\Dummy;
 use Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory\Response;
+use Illuminate\Http\Response as LaravelResponse;
 use JMS\Serializer\SerializationContext;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Illuminate\Http\Response as LaravelResponse;
 
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
