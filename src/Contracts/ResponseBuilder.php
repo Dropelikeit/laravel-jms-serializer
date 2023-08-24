@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Dropelikeit\LaravelJmsSerializer\Contracts;
 
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
+use Dropelikeit\LaravelJmsSerializer\Http\Code;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\Response;
-use Dropelikeit\LaravelJmsSerializer\Http\Code;
 
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
