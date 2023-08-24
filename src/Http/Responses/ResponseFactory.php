@@ -108,6 +108,11 @@ final class ResponseFactory implements Contracts\ResponseBuilder
         return $this->getResponse($content);
     }
 
+    public function createQuietResponse(): Response
+    {
+        return new LaravelResponse(status: Code::HTTP_CODE_NO_CONTENT);
+    }
+
     /**
      * @psalm-param non-empty-string $content
      */

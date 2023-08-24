@@ -13,6 +13,7 @@ use Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory\Response;
 use JMS\Serializer\SerializationContext;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Illuminate\Http\Response as LaravelResponse;
 
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
@@ -307,5 +308,17 @@ final class ResponseFactoryTest extends TestCase
         $responseFactory->withContext(SerializationContext::create()->setSerializeNull(true));
         /** @phpstan-ignore-next-line */
         $responseFactory->withSerializeType('array');
+    }
+
+    /**
+     * @test
+     */
+    public function canCreateQuietResponse(): void
+    {
+        $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
+
+        $response = $responseFactory->createQuietResponse();
+
+        $this->assertEquals(new LaravelResponse(status: 204), $response);
     }
 }

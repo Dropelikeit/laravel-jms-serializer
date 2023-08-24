@@ -34,4 +34,9 @@ interface ResponseBuilder
      * @return Response
      */
     public function createFromArray(array $jmsResponse): Response;
+
+    /**
+     * @description Create a response without a body
+     */
+    public function createQuietResponse(): Response;
 }
