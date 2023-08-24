@@ -6,6 +6,7 @@ namespace Dropelikeit\LaravelJmsSerializer\Contracts;
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\Response;
+use Dropelikeit\LaravelJmsSerializer\Http\Code;
 
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
@@ -13,8 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 interface ResponseBuilder
 {
     /**
-     * @phpstan-ignore-next-line
-     * @psalm-param Response::HTTP_* $code
+     * @psalm-param Code::HTTP_CODE_* $code
      */
     public function withStatusCode(int $code): void;
 

@@ -23,27 +23,26 @@ final class Config implements ResponseBuilderConfig
     /**
      * @psalm-var non-empty-string
      */
-    private string $cacheDir;
+    private readonly string $cacheDir;
 
     /**
-     * @var array<int, CustomHandlerConfiguration>
+     * @var array<int, CustomHandlerConfiguration|class-string>
      */
-    private array $customHandlers;
+    private readonly array $customHandlers;
 
     /**
-     * @param array<int, CustomHandlerConfiguration> $customHandlers
-     * @psalm-param ResponseBuilderConfig::SERIALIZE_TYPE_* $serializeType
+     * @param array<int, CustomHandlerConfiguration|class-string> $customHandlers
      */
     private function __construct(
+        private readonly bool $shouldSerializeNull,
+        /**
+         * @psalm-var ResponseBuilderConfig::SERIALIZE_TYPE_*
+         */
+        private readonly string $serializeType,
+        private readonly bool $debug,
+        private readonly bool $addDefaultHandlers,
         string $cacheDir,
         array $customHandlers,
-        private bool $shouldSerializeNull,
-        /**
-         * @var string 'json'|'xml'
-         */
-        private string $serializeType,
-        private bool $debug,
-        private bool $addDefaultHandlers,
     ) {
         $cacheDir = sprintf('%s%s', $cacheDir, self::CACHE_DIR);
         Assert::stringNotEmpty($cacheDir);
@@ -121,7 +120,7 @@ final class Config implements ResponseBuilderConfig
     }
 
     /**
-     * @return array<int, CustomHandlerConfiguration>
+     * @return array<int, CustomHandlerConfiguration|class-string>
      */
     public function getCustomHandlers(): array
     {

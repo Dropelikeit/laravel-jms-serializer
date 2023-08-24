@@ -23,7 +23,7 @@ interface Config
     public function shouldAddDefaultHeaders(): bool;
 
     /**
-     * @psalm-return list<CustomHandlerConfiguration|class-string>
+     * @return array<int, CustomHandlerConfiguration|class-string>
      */
     public function getCustomHandlers(): array;
 }
