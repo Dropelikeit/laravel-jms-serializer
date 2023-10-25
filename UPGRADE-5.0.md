@@ -14,4 +14,4 @@ Since Laravel 9+ requires PHP 8.1, this PHP version is also required in this lib
 
 ### Patches
 
-- The cache directory now points to the "/storage/cache" directory. 
+- The cache directory now points to the "/storage/cache" directory.
