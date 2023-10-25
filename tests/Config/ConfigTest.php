@@ -101,6 +101,9 @@ final class ConfigTest extends TestCase
         ];
     }
 
+    /**
+     * @param array{serialize_null: bool, cache_dir: string, serialize_type: string, debug: bool, add_default_handlers: bool, custom_handlers: array<int, CustomHandlerConfiguration>} $config
+     */
     #[Test]
     #[DataProvider('dataProviderCanNotCreateConfigBecauseInvalidArgumentExceptionThrows')]
     public function canNotCreateConfigBecauseInvalidArgumentExceptionThrows(array $config, int $statusCode, string $expectedError): void
