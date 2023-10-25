@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Dropelikeit\LaravelJmsSerializer\Tests;
 
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
-use Dropelikeit\LaravelJmsSerializer\Contracts\ResponseBuilder;
 use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;
 use Dropelikeit\LaravelJmsSerializer\Serializer\Factory;
 use Dropelikeit\LaravelJmsSerializer\ServiceProvider;
@@ -57,14 +56,6 @@ final class ServiceProviderTest extends TestCase
         $this->configRepository
             ->expects(self::exactly(6))
             ->method('get')
-            ->withConsecutive(
-                ['laravel-jms-serializer', []],
-                ['laravel-jms-serializer.serialize_null', true],
-                ['laravel-jms-serializer.serialize_type', 'json'],
-                ['laravel-jms-serializer.debug', false],
-                ['laravel-jms-serializer.add_default_handlers', true],
-                ['laravel-jms-serializer.custom_handlers', []],
-            )
             ->willReturnOnConsecutiveCalls([], true, 'json', false, true, []);
 
         $this->application
@@ -106,13 +97,7 @@ final class ServiceProviderTest extends TestCase
 
         $this->application
             ->expects(self::exactly(2))
-            ->method('bind')
-            ->withConsecutive(
-                [ResponseBuilder::class, ResponseFactory::class],
-                ['ResponseFactory', static function ($app): ResponseFactory {
-                    return $app->get(ResponseFactory::class);
-                }]
-            );
+            ->method('bind');
 
         $provider = new ServiceProvider($this->application);
 

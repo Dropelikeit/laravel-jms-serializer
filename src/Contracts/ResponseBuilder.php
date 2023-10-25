@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Dropelikeit\LaravelJmsSerializer\Contracts;
 
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
+use Dropelikeit\LaravelJmsSerializer\Http\Code;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,8 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 interface ResponseBuilder
 {
     /**
-     * @phpstan-ignore-next-line
-     * @psalm-param Response::HTTP_* $code
+     * @psalm-param Code::HTTP_CODE_* $code
      */
     public function withStatusCode(int $code): void;
 
@@ -34,4 +34,9 @@ interface ResponseBuilder
      * @return Response
      */
     public function createFromArray(array $jmsResponse): Response;
+
+    /**
+     * @description Create a response without a body
+     */
+    public function createQuietResponse(): Response;
 }

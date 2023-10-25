@@ -4,6 +4,7 @@
 
 Version 5 of this package no longer supports Laravel 8.
 Since Laravel has not provided version 8 with updates since 24/01/2023.
+Since Laravel 9+ requires PHP 8.1, this PHP version is also required in this library.
 ---
 
 ### Features

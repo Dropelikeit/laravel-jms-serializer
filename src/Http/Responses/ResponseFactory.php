@@ -6,6 +6,7 @@ namespace Dropelikeit\LaravelJmsSerializer\Http\Responses;
 use ArrayIterator;
 use Dropelikeit\LaravelJmsSerializer\Contracts;
 use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
+use Dropelikeit\LaravelJmsSerializer\Http\Code;
 use Illuminate\Http\Response as LaravelResponse;
 use function in_array;
 use JMS\Serializer\SerializationContext;
@@ -26,8 +27,7 @@ final class ResponseFactory implements Contracts\ResponseBuilder
     private const SERIALIZER_INITIAL_TYPE_ARRAY = 'array';
 
     /**
-     * @phpstan-ignore-next-line
-     * @psalm-var Response::HTTP_*
+     * @psalm-var Code::HTTP_CODE_*
      */
     private int $status;
 
@@ -41,7 +41,7 @@ final class ResponseFactory implements Contracts\ResponseBuilder
      */
     private string $serializeType;
 
-    public function __construct(private SerializerInterface $serializer, private Contracts\Config $config)
+    public function __construct(private readonly SerializerInterface $serializer, private readonly Contracts\Config $config)
     {
         $this->serializeType = $config->getSerializeType();
         $this->status = Response::HTTP_OK;
@@ -49,8 +49,7 @@ final class ResponseFactory implements Contracts\ResponseBuilder
     }
 
     /**
-     * @phpstan-ignore-next-line
-     * @psalm-param Response::HTTP_* $code
+     * @psalm-param Code::HTTP_CODE_* $code
      */
     public function withStatusCode(int $code): void
     {
@@ -107,6 +106,11 @@ final class ResponseFactory implements Contracts\ResponseBuilder
         Assert::stringNotEmpty($content);
 
         return $this->getResponse($content);
+    }
+
+    public function createQuietResponse(): Response
+    {
+        return new LaravelResponse(status: Code::HTTP_CODE_NO_CONTENT);
     }
 
     /**

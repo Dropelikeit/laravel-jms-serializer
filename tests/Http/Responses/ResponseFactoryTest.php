@@ -10,6 +10,7 @@ use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;
 use Dropelikeit\LaravelJmsSerializer\Serializer\Factory;
 use Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory\Dummy;
 use Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory\Response;
+use Illuminate\Http\Response as LaravelResponse;
 use JMS\Serializer\SerializationContext;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -262,7 +263,7 @@ final class ResponseFactoryTest extends TestCase
      * @return array<string, array<int, string>>
      * @psalm-return array{with_json: array<int, string>, 'with_xml': array<int, string>}
      */
-    public function dataProviderCanSerializeWithSerializeType(): array
+    public static function dataProviderCanSerializeWithSerializeType(): array
     {
         return [
             'with_json' => [
@@ -307,5 +308,17 @@ final class ResponseFactoryTest extends TestCase
         $responseFactory->withContext(SerializationContext::create()->setSerializeNull(true));
         /** @phpstan-ignore-next-line */
         $responseFactory->withSerializeType('array');
+    }
+
+    /**
+     * @test
+     */
+    public function canCreateQuietResponse(): void
+    {
+        $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
+
+        $response = $responseFactory->createQuietResponse();
+
+        $this->assertEquals(new LaravelResponse(status: 204), $response);
     }
 }
