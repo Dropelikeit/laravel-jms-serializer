@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer\Tests\Serializer;
 
+use DateTime;
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
 use Dropelikeit\LaravelJmsSerializer\Contracts\CustomHandlerConfiguration;
 use Dropelikeit\LaravelJmsSerializer\Serializer\Factory;
@@ -15,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
  */
-class FactoryTest extends TestCase
+final class FactoryTest extends TestCase
 {
     /**
      * @test
@@ -98,7 +100,7 @@ class FactoryTest extends TestCase
             ->expects(self::once())
             ->method('getCallable')
             ->willReturn(
-                static function (JsonSerializationVisitor $visitor, \DateTime $date, array $type, Context $context) {
+                static function (JsonSerializationVisitor $visitor, DateTime $date, array $type, Context $context) {
                     return 'hello world!';
                 }
             );

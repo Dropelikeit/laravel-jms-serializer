@@ -46,14 +46,15 @@
     "symfony/cache": "^6.3",
     "vimeo/psalm": "^5.15",
     "psalm/plugin-laravel": "^2.8",
-    "psalm/plugin-phpunit": "^0.18.4"
+    "psalm/plugin-phpunit": "^0.18.4",
+    "infection/infection": "^0.27.6"
   },
   "scripts": {
     "lint": "parallel-lint --exclude .git --exclude vendor .",
     "cs-check": "php-cs-fixer -v --dry-run --using-cache=no fix",
     "cs-fix": "php-cs-fixer --using-cache=no fix",
-    "test": "phpunit",
-    "test-coverage": "phpunit --coverage-clover build/logs/clover.xml",
+    "test": "export XDEBUG_MODE=coverage && phpunit",
+    "test-coverage": "export XDEBUG_MODE=coverage && phpunit --coverage-clover build/logs/clover.xml --coverage-html build/logs/clover.html",
     "analyze": "phpstan analyze --no-progress --memory-limit=-1 --xdebug",
     "psalm": "psalm --no-cache -c psalm.xml",
     "check": [
@@ -64,5 +65,10 @@
       "@lint",
       "@psalm"
     ]
+  },
+  "config": {
+    "allow-plugins": {
+      "infection/extension-installer": true
+    }
   }
 }

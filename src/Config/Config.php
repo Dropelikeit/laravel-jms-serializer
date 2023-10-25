@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Dropelikeit\LaravelJmsSerializer\Config;
 
+use Webmozart\Assert\Assert;
 use function array_diff;
 use function array_keys;
 use Dropelikeit\LaravelJmsSerializer\Contracts\Config as ResponseBuilderConfig;
@@ -13,7 +14,6 @@ use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
 use function implode;
 use function in_array;
 use function sprintf;
-use Webmozart\Assert\Assert;
 
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
@@ -45,7 +45,7 @@ final class Config implements ResponseBuilderConfig
         array $customHandlers,
     ) {
         $cacheDir = sprintf('%s%s', $cacheDir, self::CACHE_DIR);
-        Assert::stringNotEmpty($cacheDir);
+        #Assert::stringNotEmpty($cacheDir);
 
         $this->cacheDir = $cacheDir;
         $this->customHandlers = $customHandlers;
@@ -59,32 +59,48 @@ final class Config implements ResponseBuilderConfig
     public static function fromConfig(array $config): self
     {
         $missing = array_diff([
-            'serialize_null',
-            'cache_dir',
-            'serialize_type',
-            'debug',
-            'add_default_handlers',
-            'custom_handlers',
+            self::KEY_SERIALIZE_NULL,
+            self::KEY_CACHE_DIR,
+            self::KEY_SERIALIZE_TYPE,
+            self::KEY_DEBUG,
+            self::KEY_ADD_DEFAULT_HANDLERS,
+            self::KEY_CUSTOM_HANDLERS,
         ], array_keys($config));
 
         if (!empty($missing)) {
             throw MissingRequiredItems::fromConfig(implode(',', $missing));
         }
 
-        if (!in_array($config['serialize_type'], [
+        $serializeType = $config[self::KEY_SERIALIZE_TYPE];
+        if (!in_array($serializeType, [
             self::SERIALIZE_TYPE_JSON,
             self::SERIALIZE_TYPE_XML,
         ], true)) {
-            throw SerializeType::fromUnsupportedSerializeType($config['serialize_type']);
+            throw SerializeType::fromUnsupportedSerializeType($serializeType);
         }
 
+        $serializeNull = $config[self::KEY_SERIALIZE_NULL];
+        Assert::boolean($serializeNull);
+
+        $debug = $config[self::KEY_DEBUG];
+        Assert::boolean($debug);
+
+        $addDefaultHandlers = $config[self::KEY_ADD_DEFAULT_HANDLERS];
+        Assert::boolean($addDefaultHandlers);
+
+        $cacheDir = $config[self::KEY_CACHE_DIR];
+        Assert::string($cacheDir);
+
+        $customHandlers = $config[self::KEY_CUSTOM_HANDLERS];
+        Assert::isArray($customHandlers);
+
         return new self(
-            cacheDir: $config['cache_dir'],
-            customHandlers: (array) $config['custom_handlers'],
-            shouldSerializeNull: (bool) $config['serialize_null'],
-            serializeType: $config['serialize_type'],
-            debug: (bool) $config['debug'],
-            addDefaultHandlers: (bool) $config['add_default_handlers'],
+            shouldSerializeNull: $serializeNull,
+            serializeType: $serializeType,
+            debug: $debug,
+            addDefaultHandlers: $addDefaultHandlers,
+            cacheDir: $cacheDir,
+            customHandlers: $customHandlers,
         );
     }
 

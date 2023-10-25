@@ -69,6 +69,11 @@ final class Factory
             });
         }
 
-        return $builder->setCacheDir($config->getCacheDir())->setDebug($config->debug())->build();
+        $cacheDir = $config->getCacheDir();
+        if ($cacheDir !== '') {
+            $builder->setCacheDir($cacheDir);
+        }
+
+        return $builder->setDebug($config->debug())->build();
     }
 }
