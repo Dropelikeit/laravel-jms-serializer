@@ -7,6 +7,7 @@
 [![Total Downloads](https://poser.pugx.org/dropelikeit/laravel-jms-serializer/downloads)](https://packagist.org/packages/dropelikeit/laravel-jms-serializer)
 [![License](https://poser.pugx.org/dropelikeit/laravel-jms-serializer/license)](https://packagist.org/packages/dropelikeit/laravel-jms-serializer)
 [![composer.lock](https://poser.pugx.org/dropelikeit/laravel-jms-serializer/composerlock)](https://packagist.org/packages/dropelikeit/laravel-jms-serializer)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2FDropelikeit%2Flaravel-jms-serializer%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/Dropelikeit/laravel-jms-serializer/master)
 
 # JMS Serializer for Laravel
 
