@@ -12,15 +12,13 @@
         "@default": true
     },
     "logs": {
-        "text": "infection.log",
         "html": "infection.html",
         "summary": "summary.log",
         "json": "infection-log.json",
         "perMutator": "per-mutator.md",
         "github": true,
-        "gitlab": "gitlab-code-quality.json",
         "stryker": {
-            "badge": "/^release-.*$/"
+            "badge": "master"
         },
         "summaryJson": "summary.json"
     },
