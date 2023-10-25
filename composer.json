@@ -57,6 +57,7 @@
     "test-coverage": "export XDEBUG_MODE=coverage && phpunit --coverage-clover build/logs/clover.xml --coverage-html build/logs/clover.html",
     "analyze": "phpstan analyze --no-progress --memory-limit=-1 --xdebug",
     "psalm": "psalm --no-cache -c psalm.xml",
+    "infection": "infection --min-covered-msi=70 --threads=4",
     "check": [
       "@cs-check",
       "@analyze",

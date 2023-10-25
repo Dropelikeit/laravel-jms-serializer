@@ -49,6 +49,9 @@ jobs:
       - name: "PHP Lint"
         run: "composer lint"
 
+      - name: "Run infection"
+        run: "composer infection"
+
   php82:
     name: PHP 8.2
     runs-on: ubuntu-latest
@@ -92,3 +95,6 @@ jobs:
 
       - name: "PHP Lint"
         run: "composer lint"
+
+      - name: "Run infection"
+        run: "composer infection"
