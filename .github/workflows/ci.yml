@@ -50,6 +50,8 @@ jobs:
         run: "composer lint"
 
       - name: "Run infection"
+        env:
+          INFECTION_BADGE_API_KEY: ${{ secrets.INFECTION_BADGE_API_KEY }}
         run: "composer infection"
 
   php82:
@@ -97,4 +99,6 @@ jobs:
         run: "composer lint"
 
       - name: "Run infection"
+        env:
+          INFECTION_BADGE_API_KEY: ${{ secrets.INFECTION_BADGE_API_KEY }}
         run: "composer infection"
