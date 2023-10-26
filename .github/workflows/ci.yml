@@ -51,7 +51,7 @@ jobs:
 
       - name: "Run infection"
         env:
-          INFECTION_BADGE_API_KEY: ${{ secrets.INFECTION_BADGE_API_KEY }}
+          INFECTION_BADGE_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         run: "composer infection"
 
   php82:
@@ -100,5 +100,5 @@ jobs:
 
       - name: "Run infection"
         env:
-          INFECTION_BADGE_API_KEY: ${{ secrets.INFECTION_BADGE_API_KEY }}
+          INFECTION_BADGE_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         run: "composer infection"
