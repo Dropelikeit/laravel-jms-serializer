@@ -170,7 +170,8 @@ final class FactoryTest extends TestCase
 
     private function getSerializer(): Serializer
     {
-        $config = Config::fromConfig([
+        /** @var array{serialize_null: bool, cache_dir: string, serialize_type: string, debug: bool, add_default_handlers: bool, custom_handlers: array<int, CustomHandlerConfiguration>} $options */
+        $options = [
             'serialize_null' => true,
             'serialize_type' => 'json',
             'cache_dir' => 'tmp',
@@ -179,7 +180,9 @@ final class FactoryTest extends TestCase
             'custom_handlers' => [
                 CustomHandler::class,
             ],
-        ]);
+        ];
+
+        $config = Config::fromConfig($options);
 
         $builder = SerializerBuilder::create()
             ->setPropertyNamingStrategy(

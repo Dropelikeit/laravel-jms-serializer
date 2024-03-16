@@ -16,4 +16,9 @@ final class XmlDummy
     {
         $this->title = 'My test';
     }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
 }
