@@ -10,8 +10,13 @@ use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;
 use Dropelikeit\LaravelJmsSerializer\Serializer\Factory;
 use Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory\Dummy;
 use Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory\Response;
+use Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory\XmlDummy;
 use Illuminate\Http\Response as LaravelResponse;
+use InvalidArgumentException;
 use JMS\Serializer\SerializationContext;
+use JMS\Serializer\SerializerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -20,10 +25,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class ResponseFactoryTest extends TestCase
 {
-    /**
-     * @psalm-var MockObject&Contracts\Config
-     */
-    private MockObject $config;
+    private readonly MockObject&Contracts\Config $config;
+    private readonly MockObject&SerializerInterface $serializer;
 
     public function setUp(): void
     {
@@ -33,11 +36,13 @@ final class ResponseFactoryTest extends TestCase
             ->getMockBuilder(Contracts\Config::class)
             ->disableOriginalConstructor()
             ->getMock();
+
+        $this->serializer = $this
+            ->getMockBuilder(SerializerInterface::class)
+            ->getMock();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canCreateResponse(): void
     {
         $this->config
@@ -63,9 +68,7 @@ final class ResponseFactoryTest extends TestCase
         self::assertEquals('{"amount":12,"text":"Hello World!"}', $response->getContent());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canCreateFromArrayIterator(): void
     {
         $this->config
@@ -91,9 +94,7 @@ final class ResponseFactoryTest extends TestCase
         self::assertEquals('[{"key":"magic_number","value":12}]', $response->getContent());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canCreateJsonResponseFromArray(): void
     {
         $this->config
@@ -122,9 +123,7 @@ final class ResponseFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canCreateXmlResponseFromArray(): void
     {
         $this->config
@@ -140,7 +139,7 @@ final class ResponseFactoryTest extends TestCase
         $this->config
             ->expects(self::once())
             ->method('getSerializeType')
-            ->willReturn(Contracts\Config::SERIALIZE_TYPE_XML);
+            ->willReturn('xml');
 
         $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
 
@@ -165,9 +164,7 @@ final class ResponseFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canChangeStatusCode(): void
     {
         $this->config
@@ -195,9 +192,7 @@ final class ResponseFactoryTest extends TestCase
         self::assertEquals('{"amount":12,"text":"Hello World!"}', $response->getContent());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canUseGivenContext(): void
     {
         $this->config
@@ -225,11 +220,9 @@ final class ResponseFactoryTest extends TestCase
 
     /**
      * @psalm-param Contracts\Config::SERIALIZE_TYPE_* $changeSerializeTypeTo
-     * @param string $expectedResult
-     *
-     * @test
-     * @dataProvider dataProviderCanSerializeWithSerializeType
      */
+    #[Test]
+    #[DataProvider(methodName: 'dataProviderCanSerializeWithSerializeType')]
     public function canSerializeWithSerializeType(string $changeSerializeTypeTo, string $expectedResult): void
     {
         $this->config
@@ -282,9 +275,7 @@ final class ResponseFactoryTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canNotCreateWithUnknownSerializeType(): void
     {
         $this->expectException(SerializeType::class);
@@ -310,9 +301,7 @@ final class ResponseFactoryTest extends TestCase
         $responseFactory->withSerializeType('array');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canCreateQuietResponse(): void
     {
         $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
@@ -320,5 +309,97 @@ final class ResponseFactoryTest extends TestCase
         $response = $responseFactory->createQuietResponse();
 
         $this->assertEquals(new LaravelResponse(status: 204), $response);
+    }
+
+    #[Test]
+    public function throwInvalidArgumentExceptionIfContentOnCreateMethodIsEmpty(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage('Expected a different value than "".');
+
+        $object = new Dummy();
+
+        $this->config
+            ->expects(self::never())
+            ->method('getCacheDir');
+
+        $this->config
+            ->expects(self::never())
+            ->method('debug');
+
+        $this->config
+            ->expects(self::once())
+            ->method('getSerializeType')
+            ->willReturn(Contracts\Config::SERIALIZE_TYPE_JSON);
+
+        $this->serializer
+            ->expects(self::once())
+            ->method('serialize')
+            ->with($object, 'json', null, null)
+            ->wilLReturn('');
+
+        (new ResponseFactory($this->serializer, $this->config))->create($object);
+    }
+
+    #[Test]
+    public function throwInvalidArgumentExceptionIfContentOnCreateFromArrayMethodIsEmpty(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage('Expected a different value than "".');
+
+        $object = new Dummy();
+
+        $this->config
+            ->expects(self::never())
+            ->method('getCacheDir');
+
+        $this->config
+            ->expects(self::never())
+            ->method('debug');
+
+        $this->config
+            ->expects(self::once())
+            ->method('getSerializeType')
+            ->willReturn(Contracts\Config::SERIALIZE_TYPE_JSON);
+
+        $this->serializer
+            ->expects(self::once())
+            ->method('serialize')
+            ->with([$object], 'json', null)
+            ->wilLReturn('');
+
+        (new ResponseFactory($this->serializer, $this->config))->createFromArray([$object]);
+    }
+
+    #[Test]
+    public function canDetectIfSerializeTypeIsXmlResultResponseHasXml(): void
+    {
+        $this->config
+            ->expects(self::once())
+            ->method('getCacheDir')
+            ->willReturn(__DIR__);
+
+        $this->config
+            ->expects(self::once())
+            ->method('debug')
+            ->willReturn(true);
+
+        $this->config
+            ->expects(self::once())
+            ->method('getSerializeType')
+            ->willReturn('xml');
+
+        $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
+
+        $response = $responseFactory->create(new XmlDummy());
+
+        $this->assertEquals(
+            '<?xml version="1.0" encoding="UTF-8"?>
+<XmlDummy title="My test"/>
+',
+            $response->getContent(),
+        );
     }
 }
