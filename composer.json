@@ -54,10 +54,11 @@
     "cs-check": "php-cs-fixer -v --dry-run --using-cache=no fix",
     "cs-fix": "php-cs-fixer --using-cache=no fix",
     "test": "export XDEBUG_MODE=coverage && phpunit",
-    "test-coverage": "export XDEBUG_MODE=coverage && phpunit --coverage-clover build/logs/clover.xml --coverage-html build/logs/clover.html",
+    "test-coverage": "export XDEBUG_MODE=coverage && phpunit --coverage-xml build/logs --coverage-clover build/logs/clover.xml --coverage-html build/logs/clover.html --log-junit build/logs/junit.xml",
     "analyze": "phpstan analyze --no-progress --memory-limit=-1 --xdebug",
     "psalm": "psalm --no-cache -c psalm.xml",
     "infection": "infection --threads=4",
+    "infection-ci": "infection --coverage=build/logs --threads=16",
     "check": [
       "@cs-check",
       "@analyze",

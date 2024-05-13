@@ -45,7 +45,7 @@ jobs:
         run: "composer lint"
 
       - name: "Run infection"
-        run: "composer infection"
+        run: "composer infection-ci"
 
   php82:
     name: PHP 8.2
@@ -87,7 +87,7 @@ jobs:
         run: "composer lint"
 
       - name: "Run infection"
-        run: "composer infection"
+        run: "composer infection-ci"
 
   php83:
     name: PHP 8.3
@@ -136,4 +136,4 @@ jobs:
       - name: "Run infection"
         env:
           INFECTION_BADGE_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
-        run: "composer infection"
+        run: "composer infection-ci"
