@@ -66,7 +66,10 @@ final class ServiceProvider extends BaseServiceProvider
         $this->app->bind(ResponseBuilder::class, ResponseFactory::class);
 
         $this->app->bind('ResponseFactory', static function (Application $app): ResponseFactory {
-            return $app->get(ResponseFactory::class);
+            $responseFactory = $app->get(ResponseFactory::class);
+            Assert::isInstanceOf($responseFactory, ResponseFactory::class);
+
+            return $responseFactory;
         });
     }
 

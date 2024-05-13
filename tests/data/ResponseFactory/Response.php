@@ -15,7 +15,7 @@ final class Response extends ArrayIterator
 {
     /**
      * @param array<int, Item> $items
-     * @psalm-param Item $items
+     * @psalm-param list<Item> $items
      */
     private function __construct(array $items)
     {
@@ -27,9 +27,7 @@ final class Response extends ArrayIterator
 
     /**
      * @param array<int, Item> $items
-     * @psalm-param Item $items
-     *
-     * @return self
+     * @psalm-param list<Item> $items
      */
     public static function create(array $items): self
     {
