@@ -129,7 +129,6 @@ final class ResponseFactory implements Contracts\ResponseBuilder
         return new JsonResponse(
             data: $content,
             status: $this->status,
-            headers: [self::HEADER_NAME_CONTENT_TYPE => self::HEADER_VALUE_APPLICATION_JSON],
             json: true
         );
     }

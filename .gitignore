@@ -26,3 +26,5 @@ Homestead.json
 composer.lock
 
 /tmp
+/build
+/tests/Http/Responses/metadata

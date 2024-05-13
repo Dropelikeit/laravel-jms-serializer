@@ -8,9 +8,10 @@ use Dropelikeit\LaravelJmsSerializer\Contracts;
 use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
 use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;
 use Dropelikeit\LaravelJmsSerializer\Serializer\Factory;
-use Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory\Dummy;
-use Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory\Response;
-use Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory\XmlDummy;
+use Dropelikeit\LaravelJmsSerializer\Tests\data\ResponseFactory\Dummy;
+use Dropelikeit\LaravelJmsSerializer\Tests\data\ResponseFactory\JsonDummy;
+use Dropelikeit\LaravelJmsSerializer\Tests\data\ResponseFactory\Response;
+use Dropelikeit\LaravelJmsSerializer\Tests\data\ResponseFactory\XmlDummy;
 use Illuminate\Http\Response as LaravelResponse;
 use InvalidArgumentException;
 use JMS\Serializer\SerializationContext;
@@ -19,6 +20,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @author Marcel Strahl <info@marcel-strahl.de>
@@ -88,7 +90,7 @@ final class ResponseFactoryTest extends TestCase
 
         $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
 
-        $response = $responseFactory->create(Response::create([new Response\Item()]));
+        $response = $responseFactory->create(Response::create([new \Dropelikeit\LaravelJmsSerializer\Tests\data\ResponseFactory\Response\Item()]));
 
         self::assertEquals(200, $response->getStatusCode());
         self::assertEquals('[{"key":"magic_number","value":12}]', $response->getContent());
@@ -114,7 +116,7 @@ final class ResponseFactoryTest extends TestCase
 
         $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
 
-        $response = $responseFactory->createFromArray(require __DIR__ . '/../../ResponseFactory/dummy_array.php');
+        $response = $responseFactory->createFromArray(require __DIR__ . '/../../data/ResponseFactory/dummy_array.php');
 
         self::assertEquals(200, $response->getStatusCode());
         self::assertEquals(
@@ -143,7 +145,7 @@ final class ResponseFactoryTest extends TestCase
 
         $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
 
-        $response = $responseFactory->createFromArray(require __DIR__ . '/../../ResponseFactory/dummy_array.php');
+        $response = $responseFactory->createFromArray(require __DIR__ . '/../../data/ResponseFactory/dummy_array.php');
 
         self::assertEquals(200, $response->getStatusCode());
         self::assertEquals(
@@ -376,6 +378,14 @@ final class ResponseFactoryTest extends TestCase
     #[Test]
     public function canDetectIfSerializeTypeIsXmlResultResponseHasXml(): void
     {
+        $expectedResponse = new LaravelResponse(
+            content: '<?xml version="1.0" encoding="UTF-8"?>
+<XmlDummy title="My test"/>
+',
+            status: 200,
+            headers: ['Content-Type' => 'application/xml']
+        );
+
         $this->config
             ->expects(self::once())
             ->method('getCacheDir')
@@ -395,11 +405,38 @@ final class ResponseFactoryTest extends TestCase
 
         $response = $responseFactory->create(new XmlDummy());
 
-        $this->assertEquals(
-            '<?xml version="1.0" encoding="UTF-8"?>
-<XmlDummy title="My test"/>
-',
-            $response->getContent(),
+        $this->assertEquals($expectedResponse, $response);
+    }
+
+    #[Test]
+    public function canDetectIfSerializeTypeIsJSONResultResponseHasJSON(): void
+    {
+        $expectedResponse = new JsonResponse(
+            data: '{"title":"My test"}',
+            status: 200,
+            headers: ['Content-Type' => 'application/json'],
+            json: true
         );
+
+        $this->config
+            ->expects(self::once())
+            ->method('getCacheDir')
+            ->willReturn(__DIR__);
+
+        $this->config
+            ->expects(self::once())
+            ->method('debug')
+            ->willReturn(true);
+
+        $this->config
+            ->expects(self::once())
+            ->method('getSerializeType')
+            ->willReturn('json');
+
+        $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
+
+        $response = $responseFactory->create(new JsonDummy());
+
+        $this->assertEquals($expectedResponse, $response);
     }
 }

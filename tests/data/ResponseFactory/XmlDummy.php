@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory;
+namespace Dropelikeit\LaravelJmsSerializer\Tests\data\ResponseFactory;
 
 use JMS\Serializer\Annotation\XmlAttribute;
 use JMS\Serializer\Annotation\XmlRoot;
