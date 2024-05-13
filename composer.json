@@ -58,7 +58,7 @@
     "analyze": "phpstan analyze --no-progress --memory-limit=-1 --xdebug",
     "psalm": "psalm --no-cache -c psalm.xml",
     "infection": "infection --threads=4",
-    "infection-ci": "infection --coverage=build/logs --threads=16",
+    "infection-ci": "infection --coverage=build/logs --threads=4",
     "check": [
       "@cs-check",
       "@analyze",
