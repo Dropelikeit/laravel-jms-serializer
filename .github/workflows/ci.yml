@@ -20,7 +20,7 @@ jobs:
           php-version: "8.1"
 
       - name: "Cache composer packages"
-        uses: "actions/cache@v3"
+        uses: "actions/cache@v4"
         with:
           path: "vendor"
           key: "php-composer-locked-php-8.1-${{ hashFiles('**/composer.lock') }}"
@@ -62,7 +62,7 @@ jobs:
           php-version: "8.2"
 
       - name: "Cache composer packages"
-        uses: "actions/cache@v3"
+        uses: "actions/cache@v4"
         with:
           path: "vendor"
           key: "php-composer-locked-php-8.2-${{ hashFiles('**/composer.lock') }}"
@@ -104,7 +104,7 @@ jobs:
           php-version: "8.3"
 
       - name: "Cache composer packages"
-        uses: "actions/cache@v3"
+        uses: "actions/cache@v4"
         with:
           path: "vendor"
           key: "php-composer-locked-php-8.3-${{ hashFiles('**/composer.lock') }}"
