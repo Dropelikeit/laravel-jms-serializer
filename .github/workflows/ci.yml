@@ -3,6 +3,8 @@ name: "CI Tests"
 on:
     pull_request:
     push:
+      branches:
+        - main
 
 jobs:
   php81:
@@ -10,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
         with:
           fetch-depth: 2
 
@@ -20,22 +22,17 @@ jobs:
           php-version: "8.1"
 
       - name: "Cache composer packages"
-        uses: "actions/cache@v3"
+        uses: "actions/cache@v4"
         with:
-          path: "~/.composer/cache"
-          key: "php-composer-locked-${{ hashFiles('composer.lock') }}"
-          restore-keys: "php-composer-locked-"
+          path: "vendor"
+          key: "php-composer-locked-php-8.1-${{ hashFiles('**/composer.lock') }}"
+          restore-keys: "php-composer-locked-php-8.1-"
 
       - name: "Install dependencies with composer"
         run: "composer install --no-interaction --prefer-dist"
 
       - name: "Run PHPUnit Tests"
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          composer test
-          composer global require php-coveralls/php-coveralls
-          php-coveralls --coverage_clover=build/output/tests/coverage.xml --json_path=build/output/tests/coveralls-upload.json -v
+        run: "composer test-coverage"
 
       - name: "Run PHP CS Check"
         run: "composer cs-check"
@@ -50,16 +47,14 @@ jobs:
         run: "composer lint"
 
       - name: "Run infection"
-        env:
-          INFECTION_BADGE_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
-        run: "composer infection"
+        run: "composer infection-ci"
 
   php82:
     name: PHP 8.2
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
         with:
           fetch-depth: 2
 
@@ -69,22 +64,17 @@ jobs:
           php-version: "8.2"
 
       - name: "Cache composer packages"
-        uses: "actions/cache@v3"
+        uses: "actions/cache@v4"
         with:
-          path: "~/.composer/cache"
-          key: "php-composer-locked-${{ hashFiles('composer.lock') }}"
-          restore-keys: "php-composer-locked-"
+          path: "vendor"
+          key: "php-composer-locked-php-8.2-${{ hashFiles('**/composer.lock') }}"
+          restore-keys: "php-composer-locked-php-8.2-"
 
       - name: "Install dependencies with composer"
         run: "composer install --no-interaction --prefer-dist"
 
       - name: "Run PHPUnit Tests"
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          composer test
-          composer global require php-coveralls/php-coveralls
-          php-coveralls --coverage_clover=build/output/tests/coverage.xml --json_path=build/output/tests/coveralls-upload.json -v
+        run: "composer test-coverage"
 
       - name: "Run PHP CS Check"
         run: "PHP_CS_FIXER_IGNORE_ENV=1 composer cs-check"
@@ -99,14 +89,14 @@ jobs:
         run: "composer lint"
 
       - name: "Run infection"
-        run: "composer infection"
+        run: "composer infection-ci"
 
   php83:
     name: PHP 8.3
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
         with:
           fetch-depth: 2
 
@@ -116,22 +106,17 @@ jobs:
           php-version: "8.3"
 
       - name: "Cache composer packages"
-        uses: "actions/cache@v3"
+        uses: "actions/cache@v4"
         with:
-          path: "~/.composer/cache"
-          key: "php-composer-locked-${{ hashFiles('composer.lock') }}"
-          restore-keys: "php-composer-locked-"
+          path: "vendor"
+          key: "php-composer-locked-php-8.3-${{ hashFiles('**/composer.lock') }}"
+          restore-keys: "php-composer-locked-php-8.3-"
 
       - name: "Install dependencies with composer"
         run: "composer install --no-interaction --prefer-dist"
 
       - name: "Run PHPUnit Tests"
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          composer test
-          composer global require php-coveralls/php-coveralls
-          php-coveralls --coverage_clover=build/output/tests/coverage.xml --json_path=build/output/tests/coveralls-upload.json -v
+        run: "composer test-coverage"
 
       - name: "Run PHP CS Check"
         run: "PHP_CS_FIXER_IGNORE_ENV=1 composer cs-check"
@@ -146,4 +131,6 @@ jobs:
         run: "composer lint"
 
       - name: "Run infection"
-        run: "composer infection"
+        env:
+          INFECTION_BADGE_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
+        run: "composer infection-ci"

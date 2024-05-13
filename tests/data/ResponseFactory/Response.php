@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory;
+namespace Dropelikeit\LaravelJmsSerializer\Tests\data\ResponseFactory;
 
 use ArrayIterator;
-use Dropelikeit\LaravelJmsSerializer\Tests\ResponseFactory\Response\Item;
+use Dropelikeit\LaravelJmsSerializer\Tests\data\ResponseFactory\Response\Item;
 use Webmozart\Assert\Assert;
 
 /**
@@ -28,8 +28,6 @@ final class Response extends ArrayIterator
     /**
      * @param array<int, Item> $items
      * @psalm-param list<Item> $items
-     *
-     * @return self
      */
     public static function create(array $items): self
     {

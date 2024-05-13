@@ -9,6 +9,7 @@ use Dropelikeit\LaravelJmsSerializer\Contracts\ResponseBuilder;
 use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;
 use Dropelikeit\LaravelJmsSerializer\Serializer\Factory;
 use Illuminate\Config\Repository;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use function sprintf;
@@ -64,9 +65,11 @@ final class ServiceProvider extends BaseServiceProvider
 
         $this->app->bind(ResponseBuilder::class, ResponseFactory::class);
 
-        $app = $this->app;
-        $this->app->bind('ResponseFactory', static function ($app): ResponseFactory {
-            return $app->get(ResponseFactory::class);
+        $this->app->bind('ResponseFactory', static function (Application $app): ResponseFactory {
+            $responseFactory = $app->get(ResponseFactory::class);
+            Assert::isInstanceOf($responseFactory, ResponseFactory::class);
+
+            return $responseFactory;
         });
     }
 

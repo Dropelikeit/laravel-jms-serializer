@@ -22,7 +22,6 @@ use Webmozart\Assert\Assert;
 final class ResponseFactory implements Contracts\ResponseBuilder
 {
     private const HEADER_NAME_CONTENT_TYPE = 'Content-Type';
-    private const HEADER_VALUE_APPLICATION_JSON = 'application/json';
     private const HEADER_VALUE_APPLICATION_XML = 'application/xml';
     private const SERIALIZER_INITIAL_TYPE_ARRAY = 'array';
 
@@ -129,7 +128,6 @@ final class ResponseFactory implements Contracts\ResponseBuilder
         return new JsonResponse(
             data: $content,
             status: $this->status,
-            headers: [self::HEADER_NAME_CONTENT_TYPE => self::HEADER_VALUE_APPLICATION_JSON],
             json: true
         );
     }
