@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Dropelikeit\LaravelJmsSerializer\Tests\Config;
+namespace Dropelikeit\LaravelJmsSerializer\Tests\Unit\Config;
 
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
 use Dropelikeit\LaravelJmsSerializer\Contracts\CustomHandlerConfiguration;

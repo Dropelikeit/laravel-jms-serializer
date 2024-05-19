@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Dropelikeit\LaravelJmsSerializer\Tests\data\ResponseFactory;
+namespace Dropelikeit\LaravelJmsSerializer\Tests\Unit\data\ResponseFactory;
 
-use Dropelikeit\LaravelJmsSerializer\Tests\data\ResponseFactory\Response\Item;
+use Dropelikeit\LaravelJmsSerializer\Tests\Unit\data\ResponseFactory\Response\Item;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
