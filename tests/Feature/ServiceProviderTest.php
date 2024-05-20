@@ -18,9 +18,30 @@ final class ServiceProviderTest extends TestCase
     {
         parent::setUp();
 
+        $configRepository = $this
+            ->getMockBuilder(Repository::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $configRepository
+            ->expects(self::once())
+            ->method('set')
+            ->with('laravel-jms-serializer', [
+                'serialize_null' => true,
+                'serialize_type' => 'json', // Contracts\Config::SERIALIZE_TYPE_XML
+                'debug' => false,
+                'add_default_handlers' => true,
+                'custom_handlers' => [],
+            ]);
+
+        $configRepository
+            ->expects(self::exactly(6))
+            ->method('get')
+            ->willReturnOnConsecutiveCalls([], true, 'json', false, true, []);
+
         $this->application = new Application();
 
-        $this->application->bind('config', fn () => $this->createMock(Repository::class));
+        $this->application->bind('config', fn () => $configRepository);
 
         $this->application->register(ServiceProvider::class);
     }
