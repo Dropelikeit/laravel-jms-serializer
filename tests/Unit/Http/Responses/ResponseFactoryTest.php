@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace Dropelikeit\LaravelJmsSerializer\Tests\Http\Responses;
+namespace Dropelikeit\LaravelJmsSerializer\Tests\Unit\Http\Responses;
 
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
 use Dropelikeit\LaravelJmsSerializer\Contracts;
 use Dropelikeit\LaravelJmsSerializer\Exception\SerializeType;
 use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;
 use Dropelikeit\LaravelJmsSerializer\Serializer\Factory;
-use Dropelikeit\LaravelJmsSerializer\Tests\data\ResponseFactory\Dummy;
-use Dropelikeit\LaravelJmsSerializer\Tests\data\ResponseFactory\JsonDummy;
-use Dropelikeit\LaravelJmsSerializer\Tests\data\ResponseFactory\Response;
-use Dropelikeit\LaravelJmsSerializer\Tests\data\ResponseFactory\XmlDummy;
+use Dropelikeit\LaravelJmsSerializer\Tests\Unit\data\ResponseFactory\Dummy;
+use Dropelikeit\LaravelJmsSerializer\Tests\Unit\data\ResponseFactory\JsonDummy;
+use Dropelikeit\LaravelJmsSerializer\Tests\Unit\data\ResponseFactory\Response;
+use Dropelikeit\LaravelJmsSerializer\Tests\Unit\data\ResponseFactory\XmlDummy;
 use Illuminate\Http\Response as LaravelResponse;
 use InvalidArgumentException;
 use JMS\Serializer\SerializationContext;
@@ -90,7 +90,7 @@ final class ResponseFactoryTest extends TestCase
 
         $responseFactory = new ResponseFactory((new Factory())->getSerializer($this->config), $this->config);
 
-        $response = $responseFactory->create(Response::create([new \Dropelikeit\LaravelJmsSerializer\Tests\data\ResponseFactory\Response\Item()]));
+        $response = $responseFactory->create(Response::create([new Response\Item()]));
 
         self::assertEquals(200, $response->getStatusCode());
         self::assertEquals('[{"key":"magic_number","value":12}]', $response->getContent());

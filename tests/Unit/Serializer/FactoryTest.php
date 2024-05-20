@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Dropelikeit\LaravelJmsSerializer\Tests\Serializer;
+namespace Dropelikeit\LaravelJmsSerializer\Tests\Unit\Serializer;
 
 use DateTime;
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
 use Dropelikeit\LaravelJmsSerializer\Contracts\CustomHandlerConfiguration;
 use Dropelikeit\LaravelJmsSerializer\Serializer\Factory;
-use Dropelikeit\LaravelJmsSerializer\Tests\Serializer\data\CustomHandler;
+use Dropelikeit\LaravelJmsSerializer\Tests\Unit\Serializer\data\CustomHandler;
 use InvalidArgumentException;
 use JMS\Serializer\Context;
 use JMS\Serializer\Handler\HandlerRegistry;

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Dropelikeit\LaravelJmsSerializer\Tests;
+namespace Dropelikeit\LaravelJmsSerializer\Tests\Unit;
 
 use Dropelikeit\LaravelJmsSerializer\Config\Config;
 use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;

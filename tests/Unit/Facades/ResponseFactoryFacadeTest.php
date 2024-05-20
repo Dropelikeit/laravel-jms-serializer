@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Dropelikeit\LaravelJmsSerializer\Tests\Facades;
+namespace Dropelikeit\LaravelJmsSerializer\Tests\Unit\Facades;
 
 use Dropelikeit\LaravelJmsSerializer\Facades\ResponseFactoryFacade;
 use PHPUnit\Framework\TestCase;

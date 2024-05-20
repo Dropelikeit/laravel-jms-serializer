@@ -6,9 +6,14 @@
       <text outputFile="php://stdout" showUncoveredFiles="false"/>
     </report>
   </coverage>
-  <testsuite name="Laravel-JMS-Serializer">
-    <directory suffix="Test.php">tests</directory>
-  </testsuite>
+  <testsuites>
+    <testsuite name="Unit">
+      <directory suffix="Test.php">./tests/Unit</directory>
+    </testsuite>
+    <testsuite name="Feature">
+      <directory suffix="Test.php">tests/Feature</directory>
+    </testsuite>
+  </testsuites>
   <source>
     <include>
       <directory suffix=".php">src</directory>
