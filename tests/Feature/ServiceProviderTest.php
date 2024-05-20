@@ -6,6 +6,7 @@ namespace Dropelikeit\LaravelJmsSerializer\Tests\Feature;
 use Dropelikeit\LaravelJmsSerializer\Contracts\ResponseBuilder;
 use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;
 use Dropelikeit\LaravelJmsSerializer\ServiceProvider;
+use Illuminate\Config\Repository;
 use Illuminate\Foundation\Application;
 use PHPUnit\Framework\TestCase;
 
@@ -18,6 +19,8 @@ final class ServiceProviderTest extends TestCase
         parent::setUp();
 
         $this->application = new Application();
+
+        $this->application->bind('config', static fn () => $this->createMock(Repository::class));
 
         $this->application->register(ServiceProvider::class);
     }
