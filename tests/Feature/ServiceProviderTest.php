@@ -43,7 +43,7 @@ final class ServiceProviderTest extends TestCase
         Storage::shouldReceive('exists')->once()->with(__DIR__.'/data/storage/framework/cache/data')->andReturn(true);
 
         $this->application = new Application();
-        $this->application->useStoragePath(__DIR__.'/data');
+        $this->application->useStoragePath(__DIR__.'/data/storage');
 
         $this->application->bind('config', fn () => $configRepository);
 
