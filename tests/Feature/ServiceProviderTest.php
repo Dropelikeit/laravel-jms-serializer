@@ -8,6 +8,7 @@ use Dropelikeit\LaravelJmsSerializer\Http\Responses\ResponseFactory;
 use Dropelikeit\LaravelJmsSerializer\ServiceProvider;
 use Illuminate\Config\Repository;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\TestCase;
 
 final class ServiceProviderTest extends TestCase
@@ -38,6 +39,9 @@ final class ServiceProviderTest extends TestCase
             ->expects(self::exactly(6))
             ->method('get')
             ->willReturnOnConsecutiveCalls([], true, 'json', false, true, []);
+
+        Storage::shouldReceive('exists')->once()->with('/storage/framework/cache/data')->andReturn(false);
+        Storage::shouldReceive('makeDirectory')->with('/storage/framework/cache/data')->andReturn(true);
 
         $this->application = new Application();
 
