@@ -14,7 +14,7 @@ final class ServiceProviderTest extends TestCase
 {
     private readonly Application $application;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
 
