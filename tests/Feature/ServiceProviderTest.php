@@ -20,7 +20,7 @@ final class ServiceProviderTest extends TestCase
 
         $this->application = new Application();
 
-        $this->application->bind('config', static fn () => $this->createMock(Repository::class));
+        $this->application->bind('config', fn () => $this->createMock(Repository::class));
 
         $this->application->register(ServiceProvider::class);
     }
