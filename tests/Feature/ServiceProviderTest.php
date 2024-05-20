@@ -40,8 +40,7 @@ final class ServiceProviderTest extends TestCase
             ->method('get')
             ->willReturnOnConsecutiveCalls([], true, 'json', false, true, []);
 
-        Storage::shouldReceive('exists')->once()->with(__DIR__.'/data/storage/framework/cache/data')->andReturn(false);
-        Storage::shouldReceive('makeDirectory')->with(__DIR__.'/data/storage/framework/cache/data')->andReturn(true);
+        Storage::shouldReceive('exists')->once()->with(__DIR__.'/data/storage/framework/cache/data')->andReturn(true);
 
         $this->application = new Application();
         $this->application->useStoragePath(__DIR__.'/data');
