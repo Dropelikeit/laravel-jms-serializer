@@ -4,6 +4,7 @@
   "keywords": ["Lumen", "Laravel", "JMS Serializer", "JMS"],
   "minimum-stability": "stable",
   "license": "MIT",
+  "abandoned": "dropelikeit/laravel-responsefactory",
   "authors": [
     {
       "name": "Marcel Strahl",
