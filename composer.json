@@ -48,7 +48,7 @@
     "vimeo/psalm": "^6.0",
     "psalm/plugin-laravel": "^2.11",
     "psalm/plugin-phpunit": "^0.19",
-    "infection/infection": "^0.29.10",
+    "infection/infection": "0.27.10|^0.29.10",
     "laravel/framework": "^10.0|^v11.0"
   },
   "scripts": {
