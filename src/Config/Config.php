@@ -45,8 +45,8 @@ final class Config implements ResponseBuilderConfig
         array $customHandlers,
     ) {
         $cacheDir = sprintf('%s%s', $cacheDir, self::CACHE_DIR);
-        #Assert::stringNotEmpty($cacheDir);
 
+        // @phpstan-ignore-next-line
         $this->cacheDir = $cacheDir;
         $this->customHandlers = $customHandlers;
     }

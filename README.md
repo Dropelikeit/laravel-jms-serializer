@@ -17,6 +17,9 @@ JMS-Serializer: https://github.com/schmittjoh/serializer
 
 You are also welcome to use the Issue Tracker to set bugs, improvements or upgrade requests.
 
+> Please use the new package https://github.com/Dropelikeit/laravel-responsefactory in the future. The new package contains some new and useful functions!
+This package will only be supported until the end of Laravel 11. Until then, you should use the new package.
+
 ### Installation
 
 ``` composer require dropelikeit/laravel-jms-serializer ```
